@@ -12,6 +12,7 @@
   --steel:#D6E4FF; --light:#F0F4FF; --dark:#0A0F1E; --white:#FFFFFF;
   --mid:#6B7280; --green:#10B981; --amber:#F59E0B; --purple:#8B5CF6;
   --surface:#111827; --s2:#1a2235; --s3:#1f2d45;
+  --orange:#F97316;
   --border:rgba(214,228,255,0.10); --borderb:rgba(214,228,255,0.22);
   --fd:'Caladea',Georgia,serif; --fb:'Carlito',sans-serif; --fm:'DM Mono',monospace;
 }
@@ -355,6 +356,158 @@ textarea.fi{resize:vertical;min-height:80px;}
 .toast.t-amber{border-left:3px solid var(--amber);}
 .toast.t-blue{border-left:3px solid var(--electric);}
 
+/* ── OPS HUB ── */
+.ops-tabs{display:flex;gap:4px;flex-wrap:wrap;background:rgba(15,32,87,0.5);padding:4px;border-radius:8px;margin-bottom:20px;}
+.ops-tab{font-family:var(--fm);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:6px;cursor:pointer;color:var(--steel);background:transparent;border:none;transition:all .2s;position:relative;white-space:nowrap;}
+.ops-tab:hover{background:rgba(31,107,255,0.2);}
+.ops-tab.active{background:var(--electric);color:#fff;}
+.ops-tab .ot-badge{position:absolute;top:-4px;right:-4px;background:var(--red);color:#fff;font-size:9px;padding:2px 5px;border-radius:10px;min-width:16px;text-align:center;}
+.ops-panel{display:none;} .ops-panel.active{display:block;}
+
+/* Kanban */
+.kanban-board{display:flex;gap:10px;overflow-x:auto;padding-bottom:10px;min-height:300px;}
+.kanban-col{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border);border-radius:10px;display:flex;flex-direction:column;}
+.kanban-col.drag-over{border:2px dashed var(--electric);background:rgba(31,107,255,0.08);}
+.kcol-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);}
+.kcol-title{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--steel);opacity:.7;}
+.kcol-count{font-family:var(--fm);font-size:10px;color:var(--mid);background:var(--s3);padding:2px 6px;border-radius:3px;}
+.kcol-body{flex:1;padding:8px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:calc(100vh - 320px);}
+.kcol-add{padding:8px;border-top:1px solid var(--border);}
+.kcol-add-btn{width:100%;background:transparent;border:1px dashed var(--borderb);color:var(--mid);padding:7px;border-radius:6px;cursor:pointer;font-family:var(--fm);font-size:9px;letter-spacing:1px;text-transform:uppercase;transition:all .15s;}
+.kcol-add-btn:hover{border-color:var(--electric);color:var(--electric);}
+
+.task-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;cursor:grab;transition:all .15s;border-left:3px solid var(--mid);}
+.task-card:hover{border-color:var(--borderb);}
+.task-card.dragging{opacity:.5;transform:rotate(2deg);}
+.task-card.pri-P0{border-left-color:var(--red);} .task-card.pri-P1{border-left-color:var(--orange);}
+.task-card.pri-P2{border-left-color:var(--electric);} .task-card.pri-P3{border-left-color:var(--mid);}
+.task-card.overdue{box-shadow:0 0 0 2px var(--red);}
+.task-card.blocked-card{background:rgba(123,94,0,0.15);}
+.task-card.done-card{opacity:.6;}
+.tc-top{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-bottom:4px;}
+.tc-title-text{font-size:12.5px;font-weight:700;color:#fff;line-height:1.3;flex:1;cursor:pointer;}
+.tc-title-text:hover{color:var(--electric);}
+.tc-pri{font-family:var(--fm);font-size:8px;font-weight:700;padding:2px 5px;border-radius:3px;flex-shrink:0;}
+.tc-pri-P0{background:rgba(239,43,45,.2);color:var(--red);} .tc-pri-P1{background:rgba(249,115,22,.2);color:var(--orange);}
+.tc-pri-P2{background:rgba(31,107,255,.2);color:var(--electric);} .tc-pri-P3{background:var(--s3);color:var(--mid);}
+.tc-bottom{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.tc-avatar{width:20px;height:20px;border-radius:50%;font-family:var(--fm);font-size:9px;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tc-dept{font-family:var(--fm);font-size:8px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;}
+.tc-due-tag{font-family:var(--fm);font-size:8px;margin-left:auto;padding:2px 6px;border-radius:3px;}
+.tc-due-overdue{background:rgba(239,43,45,.15);color:var(--red);}
+.tc-due-today{background:rgba(245,158,11,.15);color:var(--amber);}
+.tc-due-future{background:var(--s3);color:var(--mid);}
+.tc-blocker{font-size:10px;color:var(--amber);margin-top:4px;font-style:italic;display:flex;align-items:center;gap:4px;}
+.tc-link{font-size:10px;color:var(--electric);margin-top:3px;display:flex;align-items:center;gap:4px;}
+.drag-clone{position:fixed;pointer-events:none;opacity:.9;z-index:1000;transform:rotate(3deg) scale(1.02);}
+
+/* Kanban search/filters */
+.kb-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
+.kb-search-input{flex:1;min-width:180px;background:var(--s3);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:6px;font-family:var(--fb);font-size:13px;}
+.kb-search-input:focus{outline:none;border-color:var(--electric);}
+.kb-filter{background:var(--s3);border:1px solid var(--border);color:var(--steel);padding:7px 10px;border-radius:6px;font-family:var(--fm);font-size:10px;cursor:pointer;}
+.kb-filter:focus{outline:none;border-color:var(--electric);}
+.kb-filter option{background:var(--s2);}
+
+/* Weekly Commitments */
+.wk-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+.wk-col{background:var(--s2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.wk-col-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border);}
+.wk-col-name{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:#fff;}
+.wk-progress{font-family:var(--fm);font-size:10px;color:var(--mid);}
+.wk-col-body{padding:8px 12px;}
+.wk-item{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12.5px;color:#BCC8DD;}
+.wk-item:last-child{border-bottom:none;}
+.wk-chk{width:16px;height:16px;border-radius:3px;border:1.5px solid var(--borderb);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.wk-chk:hover{border-color:var(--green);}
+.wk-chk.done{background:var(--green);border-color:var(--green);}
+.wk-chk.done::after{content:'✓';font-size:9px;color:#fff;font-weight:700;}
+.wk-item.struck .wk-text{text-decoration:line-through;opacity:.4;}
+.wk-text{flex:1;min-width:0;}
+.wk-text-input{flex:1;background:transparent;border:none;color:#fff;font-family:var(--fb);font-size:12.5px;padding:2px 0;outline:none;border-bottom:1px solid var(--electric);}
+.wk-del{background:none;border:none;color:var(--mid);cursor:pointer;font-size:12px;opacity:0;transition:opacity .15s;flex-shrink:0;}
+.wk-item:hover .wk-del{opacity:.6;}
+.wk-del:hover{opacity:1!important;color:var(--red);}
+.wk-add-btn{width:100%;background:transparent;border:none;color:var(--electric);cursor:pointer;font-family:var(--fm);font-size:9px;padding:8px 0;text-align:left;letter-spacing:.5px;opacity:.6;transition:opacity .15s;}
+.wk-add-btn:hover{opacity:1;}
+.wk-stale{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:8px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:#FCD34D;}
+
+/* Decisions */
+.dec-row{background:var(--s3);border-radius:6px;border:1px solid transparent;margin-bottom:4px;transition:border-color .15s;overflow:hidden;}
+.dec-row:hover{border-color:var(--borderb);}
+.dec-row.superseded{opacity:.5;}
+.dec-row.superseded .dec-text{text-decoration:line-through;}
+.dec-hdr{display:grid;grid-template-columns:72px 1fr auto auto;gap:8px;align-items:center;padding:10px 12px;cursor:pointer;}
+.dec-date{font-family:var(--fm);font-size:10px;color:var(--mid);}
+.dec-text{font-size:12.5px;font-weight:700;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.dec-owner{font-family:var(--fm);font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(31,107,255,.15);color:var(--electric);}
+.dec-status{font-family:var(--fm);font-size:8px;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
+.ds-Active{background:rgba(16,185,129,.15);color:var(--green);}
+.ds-Revisit{background:rgba(245,158,11,.15);color:var(--amber);}
+.ds-Superseded{background:var(--s3);color:var(--mid);}
+.dec-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);}
+.dec-body.open{max-height:600px;}
+.dec-inner{padding:0 12px 12px;border-top:1px solid var(--border);padding-top:10px;}
+.dec-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;}
+.dec-tag{font-family:var(--fm);font-size:8px;padding:2px 7px;border-radius:3px;background:rgba(214,228,255,.08);color:var(--steel);}
+
+/* Blockers */
+.blk-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s3);border-radius:6px;margin-bottom:4px;transition:opacity .2s;}
+.blk-row.resolved{opacity:.4;}
+.blk-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.blk-dot.d-green{background:var(--green);}
+.blk-dot.d-amber{background:var(--amber);}
+.blk-dot.d-red{background:var(--red);animation:pulse 1.4s infinite;}
+.blk-main{flex:1;min-width:0;}
+.blk-desc{font-size:12.5px;color:#fff;font-weight:600;}
+.blk-meta{font-size:10px;color:var(--mid);margin-top:2px;}
+.blk-days{font-family:var(--fm);font-size:10px;flex-shrink:0;padding:3px 8px;border-radius:4px;background:var(--s2);color:var(--mid);}
+.blk-resolve{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--green);color:#fff;border:none;padding:6px 10px;border-radius:4px;cursor:pointer;flex-shrink:0;transition:opacity .15s;}
+.blk-resolve:hover{opacity:.8;}
+
+/* Inbox */
+.inbox-input-wrap{display:flex;gap:8px;margin-bottom:14px;}
+.inbox-input{flex:1;background:var(--s3);border:1px solid var(--border);color:#fff;padding:10px 14px;border-radius:6px;font-family:var(--fb);font-size:14px;}
+.inbox-input:focus{outline:none;border-color:var(--electric);}
+.inbox-input::placeholder{color:var(--mid);}
+.inbox-add-btn{font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--electric);color:#fff;border:none;padding:10px 16px;border-radius:6px;cursor:pointer;white-space:nowrap;}
+.inbox-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--s3);border-radius:6px;margin-bottom:4px;transition:opacity .2s;}
+.inbox-row.processed{opacity:.5;}
+.inbox-time{font-family:var(--fm);font-size:9px;color:var(--mid);width:50px;flex-shrink:0;}
+.inbox-type{font-family:var(--fm);font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px;text-transform:uppercase;flex-shrink:0;}
+.it-Idea{background:rgba(139,92,246,.15);color:var(--purple);} .it-URL{background:rgba(31,107,255,.15);color:var(--electric);}
+.it-Note{background:rgba(214,228,255,.08);color:var(--steel);} .it-Task{background:rgba(16,185,129,.15);color:var(--green);}
+.inbox-text{flex:1;font-size:12.5px;color:#BCC8DD;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.inbox-acts{display:flex;gap:4px;flex-shrink:0;}
+.inbox-btn{font-family:var(--fm);font-size:8px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 8px;border-radius:3px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--steel);transition:all .15s;}
+.inbox-btn:hover{border-color:var(--electric);color:var(--electric);}
+.inbox-btn.ib-task{background:rgba(31,107,255,.1);border-color:var(--electric);color:var(--electric);}
+
+/* Meeting Notes */
+.mtg-card{background:var(--s2);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:8px;}
+.mtg-hdr{display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer;transition:background .15s;}
+.mtg-hdr:hover,.mtg-hdr.open{background:var(--s3);}
+.mtg-info{flex:1;min-width:0;}
+.mtg-title{font-size:13px;font-weight:700;color:#fff;}
+.mtg-meta{font-size:11px;color:var(--mid);margin-top:2px;}
+.mtg-avatars{display:flex;gap:-4px;}
+.mtg-badge{font-family:var(--fm);font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(245,158,11,.15);color:var(--amber);flex-shrink:0;}
+.mtg-chev{font-size:11px;color:var(--mid);transition:transform .3s;flex-shrink:0;}
+.mtg-chev.open{transform:rotate(180deg);}
+.mtg-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1);}
+.mtg-body.open{max-height:1400px;}
+.mtg-inner{padding:0 15px 15px;border-top:1px solid var(--border);padding-top:13px;}
+.mtg-notes{font-size:12px;line-height:1.7;color:#7A8BAA;background:var(--s3);border-radius:6px;padding:10px;margin-bottom:10px;font-family:var(--fm);font-size:11px;max-height:150px;overflow-y:auto;}
+.mtg-action-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;}
+.mtg-action-row:last-child{border-bottom:none;}
+.mtg-action-text{flex:1;color:#BCC8DD;}
+.mtg-action-text.converted{text-decoration:line-through;opacity:.4;}
+
+/* Ops Export/Import */
+.ops-actions-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.ops-action-btn{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:7px 12px;border-radius:5px;cursor:pointer;border:1px solid var(--borderb);background:transparent;color:var(--steel);transition:all .15s;}
+.ops-action-btn:hover{border-color:var(--electric);color:var(--electric);}
+
 /* ── RESPONSIVE ── */
 @media(max-width:860px){
   .layout{grid-template-columns:1fr;}
@@ -364,6 +517,11 @@ textarea.fi{resize:vertical;min-height:80px;}
   .obj-row{grid-template-columns:1fr;}
   .pl-hdr,.pl-row{grid-template-columns:1fr 80px 60px;}
   .pl-hdr span:nth-child(4),.pl-hdr span:nth-child(5),.pl-row .pl-date,.pl-row .icon-btn{display:none;}
+  .kanban-board{flex-direction:column;}
+  .kanban-col{min-height:auto;}
+  .wk-grid{grid-template-columns:1fr;}
+  .ops-tabs{overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch;}
+  .ops-tab{min-height:44px;}
 }
 </style>
 </head>
@@ -407,6 +565,10 @@ textarea.fi{resize:vertical;min-height:80px;}
     <div class="nav" data-view="pitch" onclick="nav(this)"><span class="nav-ic">🎯</span><span class="nav-lbl">Pitch & Objections</span></div>
     <div class="nav" data-view="sops" onclick="nav(this)"><span class="nav-ic">📖</span><span class="nav-lbl">SOPs</span></div>
     <div class="nav" data-view="facts" onclick="nav(this)"><span class="nav-ic">🏢</span><span class="nav-lbl">Company Facts</span></div>
+  </div>
+  <div class="sb-group">
+    <span class="sb-label">Operations</span>
+    <div class="nav" data-view="ops" onclick="nav(this)"><span class="nav-ic">🧠</span><span class="nav-lbl">Ops Hub</span><span class="badge b-red" id="nb-ops">0</span></div>
   </div>
   <div class="sb-group">
     <span class="sb-label">YC Track</span>
@@ -570,6 +732,99 @@ textarea.fi{resize:vertical;min-height:80px;}
   </div>
 </div>
 
+<!-- ── OPS HUB ── -->
+<div class="view" id="view-ops">
+  <div class="ph"><div class="ph-eye">CEO Command Layer</div><div class="ph-title">Operations Hub</div><div class="ph-sub">Team tasks, weekly commitments, decisions, blockers, inbox, meetings.</div></div>
+  <div class="ops-tabs" id="opsTabs">
+    <button class="ops-tab active" data-otab="0" onclick="switchOpsTab(0)">Tasks</button>
+    <button class="ops-tab" data-otab="1" onclick="switchOpsTab(1)">Weekly</button>
+    <button class="ops-tab" data-otab="2" onclick="switchOpsTab(2)">Decisions</button>
+    <button class="ops-tab" data-otab="3" onclick="switchOpsTab(3)">Blockers <span class="ot-badge" id="otb-blk" style="display:none"></span></button>
+    <button class="ops-tab" data-otab="4" onclick="switchOpsTab(4)">Inbox <span class="ot-badge" id="otb-inbox" style="display:none"></span></button>
+    <button class="ops-tab" data-otab="5" onclick="switchOpsTab(5)">Meetings <span class="ot-badge" id="otb-mtg" style="display:none"></span></button>
+  </div>
+  <div class="ops-actions-bar">
+    <button class="ops-action-btn" onclick="exportOpsData()">↓ Export Data</button>
+    <button class="ops-action-btn" onclick="$('opsImportFile').click()">↑ Import Data</button>
+    <input type="file" id="opsImportFile" accept=".json" style="display:none" onchange="importOpsData(event)">
+  </div>
+
+  <!-- Tab 0: Tasks Kanban -->
+  <div class="ops-panel active" id="ops-0">
+    <div class="kb-controls">
+      <input class="kb-search-input" id="opsTaskSearch" placeholder="Search tasks..." oninput="renderOpsKanban()">
+      <select class="kb-filter" id="opsFilterOwner" onchange="renderOpsKanban()"><option value="">All Owners</option><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option></select>
+      <select class="kb-filter" id="opsFilterPri" onchange="renderOpsKanban()"><option value="">All Priorities</option><option>P0</option><option>P1</option><option>P2</option><option>P3</option></select>
+      <select class="kb-filter" id="opsFilterDept" onchange="renderOpsKanban()"><option value="">All Depts</option><option>Sales</option><option>Product</option><option>Engineering</option><option>Ops</option><option>YC</option></select>
+      <button class="cta" onclick="openOpsTaskModal()">+ Add Task</button>
+    </div>
+    <div class="kanban-board" id="kanbanBoard">
+      <div class="kanban-col" data-status="todo" ondragover="kcDragOver(event)" ondragleave="kcDragLeave(event)" ondrop="kcDrop(event,'todo')">
+        <div class="kcol-hdr"><span class="kcol-title">To Do</span><span class="kcol-count" id="kc-todo">0</span></div>
+        <div class="kcol-body" id="kb-todo"></div>
+        <div class="kcol-add"><button class="kcol-add-btn" onclick="quickAddTask('todo')">+ Add</button></div>
+      </div>
+      <div class="kanban-col" data-status="inprogress" ondragover="kcDragOver(event)" ondragleave="kcDragLeave(event)" ondrop="kcDrop(event,'inprogress')">
+        <div class="kcol-hdr"><span class="kcol-title">In Progress</span><span class="kcol-count" id="kc-inprogress">0</span></div>
+        <div class="kcol-body" id="kb-inprogress"></div>
+        <div class="kcol-add"><button class="kcol-add-btn" onclick="quickAddTask('inprogress')">+ Add</button></div>
+      </div>
+      <div class="kanban-col" data-status="blocked" ondragover="kcDragOver(event)" ondragleave="kcDragLeave(event)" ondrop="kcDrop(event,'blocked')">
+        <div class="kcol-hdr"><span class="kcol-title">Blocked</span><span class="kcol-count" id="kc-blocked">0</span></div>
+        <div class="kcol-body" id="kb-blocked"></div>
+        <div class="kcol-add"><button class="kcol-add-btn" onclick="quickAddTask('blocked')">+ Add</button></div>
+      </div>
+      <div class="kanban-col" data-status="done" ondragover="kcDragOver(event)" ondragleave="kcDragLeave(event)" ondrop="kcDrop(event,'done')">
+        <div class="kcol-hdr"><span class="kcol-title">Done</span><span class="kcol-count" id="kc-done">0</span></div>
+        <div class="kcol-body" id="kb-done"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 1: Weekly Commitments -->
+  <div class="ops-panel" id="ops-1">
+    <div id="wkStaleBar"></div>
+    <div class="ops-actions-bar"><button class="ops-action-btn" onclick="archiveWeek()">Archive & Reset Week</button></div>
+    <div class="wk-grid" id="wkGrid"></div>
+  </div>
+
+  <!-- Tab 2: Decisions -->
+  <div class="ops-panel" id="ops-2">
+    <div class="kb-controls">
+      <input class="kb-search-input" id="decSearch" placeholder="Search decisions..." oninput="renderDecisions()">
+      <select class="kb-filter" id="decFilterStatus" onchange="renderDecisions()"><option value="">All Status</option><option>Active</option><option>Revisit</option><option>Superseded</option></select>
+      <select class="kb-filter" id="decFilterOwner" onchange="renderDecisions()"><option value="">All Owners</option><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option><option>Team</option></select>
+      <button class="cta" onclick="openDecModal()">+ Add Decision</button>
+    </div>
+    <div id="decList"></div>
+  </div>
+
+  <!-- Tab 3: Blockers -->
+  <div class="ops-panel" id="ops-3">
+    <div class="kb-controls">
+      <select class="kb-filter" id="blkFilter" onchange="renderBlockers()"><option value="open">Open</option><option value="resolved">Resolved</option><option value="all">All</option></select>
+      <button class="cta" onclick="openBlkModal()">+ Add Blocker</button>
+    </div>
+    <div id="blkList"></div>
+  </div>
+
+  <!-- Tab 4: Inbox -->
+  <div class="ops-panel" id="ops-4">
+    <div class="inbox-input-wrap">
+      <input class="inbox-input" id="inboxInput" placeholder="Dump anything here... (Cmd+K)" onkeydown="if(event.key==='Enter')addInboxItem()">
+      <button class="inbox-add-btn" onclick="addInboxItem()">Add</button>
+    </div>
+    <div class="kb-controls"><select class="kb-filter" id="inboxFilter" onchange="renderInbox()"><option value="unprocessed">Unprocessed</option><option value="processed">Processed</option><option value="all">All</option></select><button class="ops-action-btn" onclick="bulkArchiveInbox()">Archive Processed</button></div>
+    <div id="inboxList"></div>
+  </div>
+
+  <!-- Tab 5: Meeting Notes -->
+  <div class="ops-panel" id="ops-5">
+    <button class="cta" style="margin-bottom:14px;font-size:11px;padding:8px 14px;background:var(--s2);border:1px solid var(--borderb);border-radius:6px;" onclick="openMtgModal()">+ Add Meeting Notes</button>
+    <div id="mtgList"></div>
+  </div>
+</div>
+
 <!-- ── SETTINGS ── -->
 <div class="view" id="view-settings">
   <div class="ph"><div class="ph-eye">System</div><div class="ph-title">Settings</div></div>
@@ -714,6 +969,97 @@ textarea.fi{resize:vertical;min-height:80px;}
   </div>
 </div>
 
+<!-- Ops Task Modal -->
+<div class="overlay" id="opsTaskModal">
+  <div class="modal">
+    <div class="modal-title" id="opsTaskModalTitle">Add Task</div>
+    <div class="fg"><label>Title</label><input class="fi" id="otTitle" placeholder="What needs to get done?"></div>
+    <div class="fg"><label>Description</label><textarea class="fi" id="otDesc" placeholder="Details, context..." style="min-height:60px"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Owner</label><select class="fi" id="otOwner"><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option></select></div>
+      <div class="fg"><label>Priority</label><select class="fi" id="otPri"><option value="P0">P0 — Critical</option><option value="P1" selected>P1 — High</option><option value="P2">P2 — Medium</option><option value="P3">P3 — Low</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Department</label><select class="fi" id="otDept"><option>Sales</option><option>Product</option><option>Engineering</option><option>Ops</option><option>YC</option></select></div>
+      <div class="fg"><label>Due Date</label><input class="fi" id="otDue" type="date"></div>
+    </div>
+    <div class="fg"><label>Status</label><select class="fi" id="otStatus"><option value="todo">To Do</option><option value="inprogress">In Progress</option><option value="blocked">Blocked</option><option value="done">Done</option></select></div>
+    <div class="fg" id="otBlockerWrap" style="display:none"><label>Blocker Note</label><input class="fi" id="otBlocker" placeholder="What's blocking this?"></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('opsTaskModal')">Cancel</button><button class="btn-save btn-danger" id="otDelBtn" style="display:none" onclick="deleteOpsTask()">Delete</button><button class="btn-save" onclick="saveOpsTask()">Save</button></div>
+  </div>
+</div>
+
+<!-- Quick Add Task Modal -->
+<div class="overlay" id="quickAddModal">
+  <div class="modal" style="width:380px">
+    <div class="modal-title">Quick Add Task</div>
+    <div class="fg"><label>Title</label><input class="fi" id="qaTitle" placeholder="What needs doing?" onkeydown="if(event.key==='Enter')saveQuickTask()"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Owner</label><select class="fi" id="qaOwner"><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option></select></div>
+      <div class="fg"><label>Priority</label><select class="fi" id="qaPri"><option value="P1" selected>P1</option><option value="P0">P0</option><option value="P2">P2</option><option value="P3">P3</option></select></div>
+    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('quickAddModal')">Cancel</button><button class="btn-save" onclick="saveQuickTask()">Add</button></div>
+  </div>
+</div>
+
+<!-- Decision Modal -->
+<div class="overlay" id="decModal">
+  <div class="modal">
+    <div class="modal-title" id="decModalTitle">Add Decision</div>
+    <div class="fg"><label>Decision</label><input class="fi" id="dmDec" placeholder="What was decided?"></div>
+    <div class="fg"><label>Context</label><textarea class="fi" id="dmCtx" placeholder="Why? What's the reasoning?" style="min-height:80px"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Owner</label><select class="fi" id="dmOwner"><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option><option>Team</option></select></div>
+      <div class="fg"><label>Status</label><select class="fi" id="dmStatus"><option>Active</option><option>Revisit</option><option>Superseded</option></select></div>
+    </div>
+    <div class="fg"><label>Tags (comma-separated)</label><input class="fi" id="dmTags" placeholder="Pricing, YC, Product..."></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('decModal')">Cancel</button><button class="btn-save btn-danger" id="dmDelBtn" style="display:none" onclick="deleteDecision()">Delete</button><button class="btn-save" onclick="saveDecision()">Save</button></div>
+  </div>
+</div>
+
+<!-- Blocker Modal -->
+<div class="overlay" id="blkModal">
+  <div class="modal" style="width:400px">
+    <div class="modal-title">Add Blocker</div>
+    <div class="fg"><label>Description</label><input class="fi" id="bmDesc" placeholder="What's blocked?"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Requested By</label><select class="fi" id="bmFrom"><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option></select></div>
+      <div class="fg"><label>Requested From</label><select class="fi" id="bmTo"><option>Derek</option><option>Will</option><option>Khalil</option><option>Aaron</option><option>Jose</option><option>External</option></select></div>
+    </div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('blkModal')">Cancel</button><button class="btn-save" onclick="saveBlocker()">Add Blocker</button></div>
+  </div>
+</div>
+
+<!-- Meeting Notes Modal -->
+<div class="overlay" id="mtgModal">
+  <div class="modal">
+    <div class="modal-title">Add Meeting Notes</div>
+    <div class="fg"><label>Meeting Title</label><input class="fi" id="mmTitle" placeholder="e.g. MJLF Pilot Kickoff"></div>
+    <div class="fg"><label>Date</label><input class="fi" id="mmDate" type="date"></div>
+    <div class="fg"><label>Attendees</label><div style="display:flex;gap:8px;flex-wrap:wrap" id="mmAttendees"></div></div>
+    <div class="fg"><label>Notes</label><textarea class="fi" id="mmNotes" placeholder="Paste meeting notes..." style="min-height:140px"></textarea></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('mtgModal')">Cancel</button><button class="btn-save" onclick="saveMeeting()">Save Meeting</button></div>
+  </div>
+</div>
+
+<!-- Meeting Actions Modal -->
+<div class="overlay" id="mtgActionsModal">
+  <div class="modal">
+    <div class="modal-title">Extract Action Items</div>
+    <div class="fg"><label>Add actions (one per line)</label><textarea class="fi" id="maActions" placeholder="Follow up with Maria&#10;Test Spanish accent variants&#10;Send proposal by Friday" style="min-height:120px"></textarea></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('mtgActionsModal')">Cancel</button><button class="btn-save" onclick="saveMtgActions()">Add Actions</button></div>
+  </div>
+</div>
+
+<!-- Confirm Modal -->
+<div class="overlay" id="confirmModal">
+  <div class="modal" style="width:380px">
+    <div class="modal-title">Confirm</div>
+    <p id="confirmMsg" style="font-size:13px;color:#BCC8DD;line-height:1.6;margin-bottom:16px"></p>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('confirmModal')">Cancel</button><button class="btn-save btn-danger" id="confirmBtn" onclick="">Confirm</button></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -830,6 +1176,7 @@ function renderAll() {
   renderTranscripts(); renderTemplates(); renderSOPs(); renderFacts();
   renderYC(); renderWeekChart(); renderPitch(); renderObjections();
   updateBadges(); loadSettings();
+  if(typeof renderAllOps==='function')renderAllOps();
 }
 
 // ── KPIs ───────────────────────────────────────────────────────────────
@@ -1394,7 +1741,8 @@ async function testSheet() {
   }
 }
 function resetAll() {
-  ['irs_firms','irs_followups','irs_transcripts','irs_tasks','irs_templates','irs_objections','irs_sops','irs_week','irs_settings','irs_sheetCache','irs_sheetSync'].forEach(k=>localStorage.removeItem(k));
+  ['irs_firms','irs_followups','irs_transcripts','irs_tasks','irs_templates','irs_objections','irs_sops','irs_week','irs_settings','irs_sheetCache','irs_sheetSync',
+   'irs_ops_tasks','irs_ops_tasks_archive','irs_ops_weekly_commitments','irs_ops_weekly_archive','irs_ops_decisions','irs_ops_blockers','irs_ops_inbox','irs_ops_meeting_notes','irs_ops_active_tab','irs_ops_custom_tags'].forEach(k=>localStorage.removeItem(k));
   location.reload();
 }
 
@@ -1476,10 +1824,806 @@ function toast(msg, cls='t-green') {
   setTimeout(()=>{ el.className='toast'; }, 3000);
 }
 
+// ── OPS HUB ───────────────────────────────────────────────────────────
+const FOUNDERS = ['Derek','Will','Khalil','Aaron','Jose'];
+const FOUNDER_COLORS = {Derek:'#EF2B2D',Will:'#1F6BFF',Khalil:'#0D5016',Aaron:'#F97316',Jose:'#8B5CF6'};
+const FOUNDER_INIT = {Derek:'D',Will:'W',Khalil:'K',Aaron:'A',Jose:'J'};
+const OPS_KEYS = {
+  tasks:'irs_ops_tasks',tasksArchive:'irs_ops_tasks_archive',
+  weeklyCommitments:'irs_ops_weekly_commitments',weeklyArchive:'irs_ops_weekly_archive',
+  decisions:'irs_ops_decisions',blockers:'irs_ops_blockers',
+  inbox:'irs_ops_inbox',meetingNotes:'irs_ops_meeting_notes',
+  activeTab:'irs_ops_active_tab',customTags:'irs_ops_custom_tags'
+};
+
+function uuid(){return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{const r=Math.random()*16|0;return(c==='x'?r:(r&0x3|0x8)).toString(16)});}
+function getCurrentMonday(){const d=new Date();const day=d.getDay();const diff=d.getDate()-day+(day===0?-6:1);return new Date(d.getFullYear(),d.getMonth(),diff).toISOString().split('T')[0];}
+function daysBetween(d1,d2=new Date()){return Math.floor((new Date(d2)-new Date(d1))/86400000);}
+function truncate(s,n=60){return !s?'':s.length>n?s.slice(0,n)+'...':s;}
+function formatRelDate(iso){const d=daysBetween(iso);if(d===0)return'Today';if(d===1)return'Yesterday';if(d<7)return d+'d ago';if(d<30)return Math.floor(d/7)+'w ago';return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});}
+function isInputFocused(){return ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName);}
+function debounce(fn,ms=300){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
+function founderAvatar(name,size=20){return `<div class="tc-avatar" style="width:${size}px;height:${size}px;background:${FOUNDER_COLORS[name]||'var(--mid)'}">${FOUNDER_INIT[name]||name[0]||'?'}</div>`;}
+
+// Undo
+let undoStack = [];
+const UNDO_WINDOW = 10000;
+function pushUndo(type,data){undoStack.push({type,data,ts:Date.now()});if(undoStack.length>5)undoStack.shift();}
+function undoLastAction(){
+  const a=undoStack.pop();
+  if(!a||Date.now()-a.ts>UNDO_WINDOW){toast('Nothing to undo','t-amber');return;}
+  if(a.type==='deleteTask'){const tasks=load(OPS_KEYS.tasks,[]);tasks.push(a.data);save(OPS_KEYS.tasks,tasks);renderOpsKanban();}
+  else if(a.type==='deleteFU'){ST.followups.push(a.data);persist();renderFU();}
+  else if(a.type==='deleteDecision'){const decs=load(OPS_KEYS.decisions,[]);decs.push(a.data);save(OPS_KEYS.decisions,decs);renderDecisions();}
+  else if(a.type==='deleteBlocker'){const blks=load(OPS_KEYS.blockers,[]);blks.push(a.data);save(OPS_KEYS.blockers,blks);renderBlockers();}
+  else if(a.type==='deleteInbox'){const ib=load(OPS_KEYS.inbox,[]);ib.push(a.data);save(OPS_KEYS.inbox,ib);renderInbox();}
+  toast('✓ Undone','t-green');
+  updateOpsBadges();
+}
+
+// Init Ops storage
+function initOps(){
+  if(!localStorage.getItem(OPS_KEYS.tasks))save(OPS_KEYS.tasks,[]);
+  if(!localStorage.getItem(OPS_KEYS.tasksArchive))save(OPS_KEYS.tasksArchive,[]);
+  if(!localStorage.getItem(OPS_KEYS.weeklyCommitments))save(OPS_KEYS.weeklyCommitments,{weekOf:getCurrentMonday(),commitments:{}});
+  if(!localStorage.getItem(OPS_KEYS.weeklyArchive))save(OPS_KEYS.weeklyArchive,[]);
+  if(!localStorage.getItem(OPS_KEYS.decisions))save(OPS_KEYS.decisions,[]);
+  if(!localStorage.getItem(OPS_KEYS.blockers))save(OPS_KEYS.blockers,[]);
+  if(!localStorage.getItem(OPS_KEYS.inbox))save(OPS_KEYS.inbox,[]);
+  if(!localStorage.getItem(OPS_KEYS.meetingNotes))save(OPS_KEYS.meetingNotes,[]);
+  if(!localStorage.getItem(OPS_KEYS.customTags))save(OPS_KEYS.customTags,[]);
+  seedOpsIfEmpty();
+  autoArchiveDone();
+  const savedTab = load(OPS_KEYS.activeTab,0);
+  switchOpsTab(savedTab);
+}
+
+function seedOpsIfEmpty(){
+  const tasks=load(OPS_KEYS.tasks,[]);
+  if(tasks.length>0)return;
+  const now=new Date().toISOString();
+  const ago=(d)=>new Date(Date.now()-86400000*d).toISOString();
+  save(OPS_KEYS.tasks,[
+    {id:uuid(),title:'Finalize MJLF pilot metrics deck',description:'Include call volume, conversion rates, Spanish vs English breakdown',owner:'Derek',priority:'P1',department:'Sales',status:'inprogress',createdAt:ago(2),updatedAt:now},
+    {id:uuid(),title:'Add urgency scoring to voice flow',description:'Detention calls should auto-flag as P0',owner:'Aaron',priority:'P0',department:'Engineering',status:'todo',createdAt:ago(1),updatedAt:now},
+    {id:uuid(),title:'Draft YC "impressive thing" answers',description:'Need each founder\'s most verifiable achievement',owner:'Derek',priority:'P1',department:'YC',status:'todo',createdAt:now,updatedAt:now},
+    {id:uuid(),title:'Confirm Will\'s Optum metric for YC app',description:'',owner:'Will',priority:'P2',department:'YC',status:'blocked',blockerNote:'Need to verify exact model deployed and any measurable outcomes',createdAt:ago(4),updatedAt:now},
+    {id:uuid(),title:'Set up Docketwise CRM sync',description:'Test with MJLF sandbox account',owner:'Jose',priority:'P1',department:'Engineering',status:'inprogress',createdAt:ago(3),updatedAt:now},
+    {id:uuid(),title:'Review Cayden advisor proposal',description:'90-day dating period terms',owner:'Derek',priority:'P2',department:'Ops',status:'done',createdAt:ago(5),updatedAt:ago(1),completedAt:ago(1)}
+  ]);
+  save(OPS_KEYS.weeklyCommitments,{weekOf:getCurrentMonday(),commitments:{
+    Derek:[{text:'Close 2 warm intro meetings',done:false},{text:'Complete YC Playbook review',done:true},{text:'Record pilot results for MJLF',done:false}],
+    Will:[{text:'Ship CRM sync v2',done:false},{text:'Confirm Optum metric',done:false},{text:'Review competitor voice demos',done:false}],
+    Khalil:[{text:'Finalize pricing model',done:true},{text:'Update GTM dashboard',done:false},{text:'Draft onboarding flow',done:false}],
+    Aaron:[{text:'Implement urgency scoring',done:false},{text:'Fix Spanish accent handling',done:true}],
+    Jose:[{text:'Complete Docketwise integration',done:false},{text:'Document N8n workflows',done:false}]
+  }});
+  save(OPS_KEYS.decisions,[
+    {id:uuid(),date:ago(3).split('T')[0],decision:'Pricing: $500 setup + $800/month base',context:'Validated against Cayden\'s Shopgenie model. Positions us below full-time receptionist cost while leaving room for enterprise pricing.',owner:'Team',status:'Active',tags:['Pricing'],linkedTaskIds:[]},
+    {id:uuid(),date:ago(7).split('T')[0],decision:'Target immigration firms first, criminal defense second',context:'Immigration has higher urgency (detention calls), clearer bilingual need, and MJLF gives us immediate case study.',owner:'Derek',status:'Active',tags:['GTM','ICP'],linkedTaskIds:[]},
+    {id:uuid(),date:ago(14).split('T')[0],decision:'Use Vapi for voice infrastructure, not build in-house',context:'Speed to market more important than owning infra at this stage. Revisit if we hit scale issues.',owner:'Will',status:'Active',tags:['Tech'],linkedTaskIds:[]}
+  ]);
+  save(OPS_KEYS.blockers,[
+    {id:uuid(),description:'Need Will\'s Optum metric for YC app',requestedBy:'Derek',requestedFrom:'Will',createdAt:ago(4),resolvedAt:null},
+    {id:uuid(),description:'Waiting on Docketwise API credentials for sandbox',requestedBy:'Jose',requestedFrom:'External',createdAt:ago(2),resolvedAt:null}
+  ]);
+  save(OPS_KEYS.inbox,[
+    {id:uuid(),rawText:'Look into Clio integration for future expansion',type:'Idea',createdAt:ago(1),processed:false},
+    {id:uuid(),rawText:'https://www.ycombinator.com/library/8h-how-to-apply-and-succeed-at-y-combinator',type:'URL',createdAt:ago(2),processed:false},
+    {id:uuid(),rawText:'Cayden mentioned law firms hate long contracts - keep ours to 1 page',type:'Note',createdAt:ago(3),processed:true,archivedAt:ago(1)}
+  ]);
+  save(OPS_KEYS.meetingNotes,[{
+    id:uuid(),meetingTitle:'MJLF Pilot Kickoff',meetingDate:ago(5).split('T')[0],
+    attendees:['Derek','Will'],
+    rawNotes:'Met with Maria at MJLF. She\'s excited about 24/7 coverage. Main concerns: Spanish accent accuracy, integration with Docketwise. Agreed to 30-day pilot. She\'ll send over their call flow document.',
+    extractedActions:[
+      {id:uuid(),text:'Get call flow document from Maria',owner:'Derek',converted:true,taskId:null},
+      {id:uuid(),text:'Test Spanish accent variants in voice model',owner:'Aaron',converted:false,taskId:null}
+    ],processedAt:null
+  }]);
+}
+
+function autoArchiveDone(){
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const archive=load(OPS_KEYS.tasksArchive,[]);
+  const cutoff=Date.now()-7*86400000;
+  const toArchive=tasks.filter(t=>t.status==='done'&&t.completedAt&&new Date(t.completedAt).getTime()<cutoff);
+  if(toArchive.length){
+    archive.push(...toArchive);
+    save(OPS_KEYS.tasksArchive,archive);
+    save(OPS_KEYS.tasks,tasks.filter(t=>!toArchive.find(a=>a.id===t.id)));
+  }
+}
+
+// Ops Tab Switching
+function switchOpsTab(idx){
+  document.querySelectorAll('.ops-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.ops-panel').forEach(p=>p.classList.remove('active'));
+  const tab=document.querySelector(`.ops-tab[data-otab="${idx}"]`);
+  const panel=$('ops-'+idx);
+  if(tab)tab.classList.add('active');
+  if(panel)panel.classList.add('active');
+  save(OPS_KEYS.activeTab,idx);
+  renderOpsActivePanel(idx);
+}
+
+function renderOpsActivePanel(idx){
+  if(idx===0)renderOpsKanban();
+  else if(idx===1)renderWeekly();
+  else if(idx===2)renderDecisions();
+  else if(idx===3)renderBlockers();
+  else if(idx===4)renderInbox();
+  else if(idx===5)renderMeetings();
+}
+
+function renderAllOps(){
+  const idx=load(OPS_KEYS.activeTab,0);
+  renderOpsActivePanel(idx);
+  updateOpsBadges();
+}
+
+function updateOpsBadges(){
+  const blks=load(OPS_KEYS.blockers,[]).filter(b=>!b.resolvedAt).length;
+  const inbox=load(OPS_KEYS.inbox,[]).filter(i=>!i.processed).length;
+  const mtgs=load(OPS_KEYS.meetingNotes,[]).filter(m=>!m.processedAt&&m.extractedActions?.some(a=>!a.converted)).length;
+  const total=blks+inbox+mtgs;
+  const be=$('otb-blk'),ie=$('otb-inbox'),me=$('otb-mtg'),nb=$('nb-ops');
+  if(be){be.textContent=blks;be.style.display=blks?'':'none';}
+  if(ie){ie.textContent=inbox;ie.style.display=inbox?'':'none';}
+  if(me){me.textContent=mtgs;me.style.display=mtgs?'':'none';}
+  if(nb)nb.textContent=total;
+}
+
+// ── KANBAN ────────────────────────────────────────────────────────────
+let _editTaskId=null;
+let _quickAddStatus='todo';
+let _dragTaskId=null;
+
+function getFilteredTasks(){
+  let tasks=load(OPS_KEYS.tasks,[]);
+  const q=($('opsTaskSearch')?.value||'').toLowerCase();
+  const owner=$('opsFilterOwner')?.value||'';
+  const pri=$('opsFilterPri')?.value||'';
+  const dept=$('opsFilterDept')?.value||'';
+  if(q)tasks=tasks.filter(t=>(t.title+' '+t.description).toLowerCase().includes(q));
+  if(owner)tasks=tasks.filter(t=>t.owner===owner);
+  if(pri)tasks=tasks.filter(t=>t.priority===pri);
+  if(dept)tasks=tasks.filter(t=>t.department===dept);
+  return tasks;
+}
+
+function renderOpsKanban(){
+  const tasks=getFilteredTasks();
+  const statuses=['todo','inprogress','blocked','done'];
+  statuses.forEach(s=>{
+    const col=$('kb-'+s);
+    const cnt=$('kc-'+s);
+    const filtered=tasks.filter(t=>t.status===s).sort((a,b)=>{
+      const po={'P0':0,'P1':1,'P2':2,'P3':3};
+      return (po[a.priority]||9)-(po[b.priority]||9);
+    });
+    if(cnt)cnt.textContent=filtered.length;
+    if(!col)return;
+    if(!filtered.length){
+      col.innerHTML='<div style="text-align:center;padding:20px 10px;color:var(--mid);font-size:11px">No tasks here</div>';
+      return;
+    }
+    col.innerHTML=filtered.map(t=>taskCardHTML(t)).join('');
+  });
+  updateOpsBadges();
+}
+
+function taskCardHTML(t){
+  const isOverdue=t.dueDate&&!['done'].includes(t.status)&&new Date(t.dueDate)<new Date(new Date().toDateString());
+  const isToday=t.dueDate&&t.dueDate===new Date().toISOString().split('T')[0];
+  let dueTag='';
+  if(t.dueDate){
+    if(isOverdue)dueTag=`<span class="tc-due-tag tc-due-overdue">${new Date(t.dueDate).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
+    else if(isToday)dueTag=`<span class="tc-due-tag tc-due-today">Today</span>`;
+    else dueTag=`<span class="tc-due-tag tc-due-future">${new Date(t.dueDate).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</span>`;
+  }
+  const cls=['task-card','pri-'+t.priority];
+  if(isOverdue)cls.push('overdue');
+  if(t.status==='blocked')cls.push('blocked-card');
+  if(t.status==='done')cls.push('done-card');
+  return `<div class="${cls.join(' ')}" draggable="true" ondragstart="kcDragStart(event,'${t.id}')" ondragend="kcDragEnd(event)"
+    ontouchstart="kcTouchStart(event,'${t.id}')" ontouchmove="kcTouchMove(event)" ontouchend="kcTouchEnd(event)">
+    <div class="tc-top">
+      <span class="tc-title-text" onclick="editOpsTask('${t.id}')">${truncate(t.title,50)}</span>
+      <span class="tc-pri tc-pri-${t.priority}">${t.priority}</span>
+    </div>
+    ${t.description?`<div style="font-size:11px;color:var(--mid);margin:2px 0;line-height:1.4">${truncate(t.description,70)}</div>`:''}
+    ${t.status==='blocked'&&t.blockerNote?`<div class="tc-blocker">⚠ ${truncate(t.blockerNote,50)}</div>`:''}
+    ${t.linkedDecisionId?`<div class="tc-link">🔗 Linked decision</div>`:''}
+    <div class="tc-bottom">
+      ${founderAvatar(t.owner)}
+      <span class="tc-dept">${t.department||''}</span>
+      ${dueTag}
+    </div>
+  </div>`;
+}
+
+// Drag & Drop (Desktop)
+function kcDragStart(e,id){_dragTaskId=id;e.dataTransfer.effectAllowed='move';e.target.classList.add('dragging');}
+function kcDragEnd(e){e.target.classList.remove('dragging');_dragTaskId=null;}
+function kcDragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+function kcDragLeave(e){e.currentTarget.classList.remove('drag-over');}
+function kcDrop(e,newStatus){
+  e.preventDefault();e.currentTarget.classList.remove('drag-over');
+  if(!_dragTaskId)return;
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const t=tasks.find(t=>t.id===_dragTaskId);
+  if(t){
+    t.status=newStatus;t.updatedAt=new Date().toISOString();
+    if(newStatus==='done'&&!t.completedAt)t.completedAt=new Date().toISOString();
+    if(newStatus!=='done')t.completedAt=null;
+    save(OPS_KEYS.tasks,tasks);renderOpsKanban();
+    toast('✓ Moved to '+{todo:'To Do',inprogress:'In Progress',blocked:'Blocked',done:'Done'}[newStatus],'t-green');
+  }
+  _dragTaskId=null;
+}
+
+// Touch drag (Mobile)
+let _touchTimeout,_touchClone,_touchDragEl;
+function kcTouchStart(e,id){
+  _touchTimeout=setTimeout(()=>{
+    _dragTaskId=id;_touchDragEl=e.target.closest('.task-card');
+    if(_touchDragEl)_touchDragEl.classList.add('dragging');
+    _touchClone=_touchDragEl?.cloneNode(true);
+    if(_touchClone){_touchClone.classList.add('drag-clone');_touchClone.style.width=_touchDragEl.offsetWidth+'px';document.body.appendChild(_touchClone);}
+    navigator.vibrate?.(50);
+  },300);
+}
+function kcTouchMove(e){
+  clearTimeout(_touchTimeout);
+  if(!_touchClone)return;e.preventDefault();
+  const touch=e.touches[0];
+  _touchClone.style.left=(touch.clientX-50)+'px';_touchClone.style.top=(touch.clientY-30)+'px';
+  document.querySelectorAll('.kanban-col').forEach(col=>{
+    const r=col.getBoundingClientRect();
+    if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom)col.classList.add('drag-over');
+    else col.classList.remove('drag-over');
+  });
+}
+function kcTouchEnd(e){
+  clearTimeout(_touchTimeout);
+  if(!_touchClone){_dragTaskId=null;return;}
+  const touch=e.changedTouches[0];
+  let dropCol=null;
+  document.querySelectorAll('.kanban-col').forEach(col=>{
+    col.classList.remove('drag-over');
+    const r=col.getBoundingClientRect();
+    if(touch.clientX>=r.left&&touch.clientX<=r.right&&touch.clientY>=r.top&&touch.clientY<=r.bottom)dropCol=col;
+  });
+  if(dropCol&&_dragTaskId)kcDrop({preventDefault:()=>{},currentTarget:dropCol},dropCol.dataset.status);
+  if(_touchDragEl)_touchDragEl.classList.remove('dragging');
+  if(_touchClone)_touchClone.remove();
+  _touchClone=null;_touchDragEl=null;_dragTaskId=null;
+}
+
+function openOpsTaskModal(prefillStatus){
+  _editTaskId=null;
+  $('opsTaskModalTitle').textContent='Add Task';
+  $('otTitle').value='';$('otDesc').value='';$('otOwner').value='Derek';$('otPri').value='P1';$('otDept').value='Sales';$('otDue').value='';$('otStatus').value=prefillStatus||'todo';$('otBlocker').value='';
+  $('otDelBtn').style.display='none';
+  $('otBlockerWrap').style.display=$('otStatus').value==='blocked'?'':'none';
+  $('otStatus').onchange=()=>{$('otBlockerWrap').style.display=$('otStatus').value==='blocked'?'':'none';};
+  openModal('opsTaskModal');
+  setTimeout(()=>$('otTitle').focus(),100);
+}
+
+function editOpsTask(id){
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  _editTaskId=id;
+  $('opsTaskModalTitle').textContent='Edit Task';
+  $('otTitle').value=t.title;$('otDesc').value=t.description||'';$('otOwner').value=t.owner;$('otPri').value=t.priority;$('otDept').value=t.department||'Sales';$('otDue').value=t.dueDate||'';$('otStatus').value=t.status;$('otBlocker').value=t.blockerNote||'';
+  $('otDelBtn').style.display='';
+  $('otBlockerWrap').style.display=t.status==='blocked'?'':'none';
+  $('otStatus').onchange=()=>{$('otBlockerWrap').style.display=$('otStatus').value==='blocked'?'':'none';};
+  openModal('opsTaskModal');
+}
+
+function saveOpsTask(){
+  const title=$('otTitle').value.trim();if(!title){toast('Title required','t-red');return;}
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const now=new Date().toISOString();
+  const status=$('otStatus').value;
+  if(_editTaskId){
+    const t=tasks.find(x=>x.id===_editTaskId);
+    if(t){Object.assign(t,{title,description:$('otDesc').value,owner:$('otOwner').value,priority:$('otPri').value,department:$('otDept').value,dueDate:$('otDue').value||null,status,blockerNote:status==='blocked'?$('otBlocker').value:'',updatedAt:now});
+      if(status==='done'&&!t.completedAt)t.completedAt=now;
+      if(status!=='done')t.completedAt=null;
+    }
+  } else {
+    tasks.push({id:uuid(),title,description:$('otDesc').value,owner:$('otOwner').value,priority:$('otPri').value,department:$('otDept').value,dueDate:$('otDue').value||null,status,blockerNote:status==='blocked'?$('otBlocker').value:'',createdAt:now,updatedAt:now,completedAt:status==='done'?now:null});
+  }
+  save(OPS_KEYS.tasks,tasks);closeModal('opsTaskModal');renderOpsKanban();
+  toast(_editTaskId?'✓ Task updated':'✓ Task added','t-green');_editTaskId=null;
+}
+
+function deleteOpsTask(){
+  if(!_editTaskId)return;
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const t=tasks.find(x=>x.id===_editTaskId);
+  if(t)pushUndo('deleteTask',t);
+  save(OPS_KEYS.tasks,tasks.filter(x=>x.id!==_editTaskId));
+  closeModal('opsTaskModal');renderOpsKanban();
+  toast('Task deleted — Cmd+Z to undo','t-amber');_editTaskId=null;
+}
+
+function quickAddTask(status){
+  _quickAddStatus=status;
+  $('qaTitle').value='';$('qaOwner').value='Derek';$('qaPri').value='P1';
+  openModal('quickAddModal');
+  setTimeout(()=>$('qaTitle').focus(),100);
+}
+
+function saveQuickTask(){
+  const title=$('qaTitle').value.trim();if(!title){toast('Title required','t-red');return;}
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const now=new Date().toISOString();
+  tasks.push({id:uuid(),title,description:'',owner:$('qaOwner').value,priority:$('qaPri').value,department:'Ops',dueDate:null,status:_quickAddStatus,blockerNote:'',createdAt:now,updatedAt:now,completedAt:null});
+  save(OPS_KEYS.tasks,tasks);closeModal('quickAddModal');renderOpsKanban();
+  toast('✓ Task added','t-green');
+}
+
+// ── WEEKLY COMMITMENTS ────────────────────────────────────────────────
+function renderWeekly(){
+  const data=load(OPS_KEYS.weeklyCommitments,{weekOf:getCurrentMonday(),commitments:{}});
+  const staleBar=$('wkStaleBar');
+  const grid=$('wkGrid');if(!grid)return;
+  // Check stale
+  if(staleBar){
+    if(data.weekOf!==getCurrentMonday()){
+      staleBar.innerHTML=`<div class="wk-stale">New week! Archive last week's commitments? <button class="ops-action-btn" style="margin-left:auto" onclick="archiveWeek()">Archive & Reset</button></div>`;
+    } else staleBar.innerHTML='';
+  }
+  grid.innerHTML=FOUNDERS.map(f=>{
+    const items=data.commitments[f]||[];
+    const done=items.filter(i=>i.done).length;
+    return `<div class="wk-col">
+      <div class="wk-col-hdr">
+        <div class="wk-col-name">${founderAvatar(f)} ${f}</div>
+        <span class="wk-progress">${done}/${items.length}</span>
+      </div>
+      <div class="wk-col-body">
+        ${items.length?items.map((item,i)=>`<div class="wk-item ${item.done?'struck':''}">
+          <div class="wk-chk ${item.done?'done':''}" onclick="toggleWkItem('${f}',${i})"></div>
+          <span class="wk-text" ondblclick="editWkItem(this,'${f}',${i})">${item.text}</span>
+          <button class="wk-del" onclick="removeWkItem('${f}',${i})">×</button>
+        </div>`).join(''):`<div style="font-size:11px;color:var(--mid);padding:8px 0">No commitments yet</div>`}
+        ${items.length<5?`<button class="wk-add-btn" onclick="addWkItem('${f}')">+ Add commitment</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWkItem(f,i){
+  const data=load(OPS_KEYS.weeklyCommitments,{});
+  if(data.commitments[f]?.[i]!==undefined){data.commitments[f][i].done=!data.commitments[f][i].done;save(OPS_KEYS.weeklyCommitments,data);renderWeekly();}
+}
+
+function addWkItem(f){
+  const data=load(OPS_KEYS.weeklyCommitments,{weekOf:getCurrentMonday(),commitments:{}});
+  if(!data.commitments[f])data.commitments[f]=[];
+  if(data.commitments[f].length>=5){toast('Max 5 commitments per person','t-amber');return;}
+  const text=prompt('New commitment for '+f+':');
+  if(!text?.trim())return;
+  data.commitments[f].push({text:text.trim(),done:false});
+  save(OPS_KEYS.weeklyCommitments,data);renderWeekly();
+}
+
+function removeWkItem(f,i){
+  const data=load(OPS_KEYS.weeklyCommitments,{});
+  if(data.commitments[f]?.[i]?.done&&!confirm('Remove completed item?'))return;
+  data.commitments[f].splice(i,1);
+  save(OPS_KEYS.weeklyCommitments,data);renderWeekly();
+}
+
+function editWkItem(el,f,i){
+  const data=load(OPS_KEYS.weeklyCommitments,{});
+  const item=data.commitments[f]?.[i];if(!item)return;
+  const input=document.createElement('input');
+  input.className='wk-text-input';input.value=item.text;
+  el.replaceWith(input);input.focus();
+  const finish=()=>{
+    const v=input.value.trim();
+    if(v){item.text=v;save(OPS_KEYS.weeklyCommitments,data);}
+    renderWeekly();
+  };
+  input.onblur=finish;input.onkeydown=e=>{if(e.key==='Enter')finish();if(e.key==='Escape')renderWeekly();};
+}
+
+function archiveWeek(){
+  const data=load(OPS_KEYS.weeklyCommitments,{});
+  const archive=load(OPS_KEYS.weeklyArchive,[]);
+  archive.push({...data,archivedAt:new Date().toISOString()});
+  save(OPS_KEYS.weeklyArchive,archive);
+  save(OPS_KEYS.weeklyCommitments,{weekOf:getCurrentMonday(),commitments:{}});
+  renderWeekly();toast('✓ Week archived & reset','t-green');
+}
+
+// ── DECISIONS ─────────────────────────────────────────────────────────
+let _editDecId=null;
+
+function renderDecisions(){
+  let decs=load(OPS_KEYS.decisions,[]);
+  const q=($('decSearch')?.value||'').toLowerCase();
+  const fs=$('decFilterStatus')?.value||'';
+  const fo=$('decFilterOwner')?.value||'';
+  if(q)decs=decs.filter(d=>(d.decision+' '+(d.context||'')).toLowerCase().includes(q));
+  if(fs)decs=decs.filter(d=>d.status===fs);
+  if(fo)decs=decs.filter(d=>d.owner===fo);
+  decs.sort((a,b)=>new Date(b.date)-new Date(a.date));
+  const el=$('decList');if(!el)return;
+  if(!decs.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-txt">No decisions logged yet. First one\'s always the hardest.</div></div>';return;}
+  el.innerHTML=decs.map(d=>`<div class="dec-row ${d.status==='Superseded'?'superseded':''}">
+    <div class="dec-hdr" onclick="toggleDec('${d.id}')">
+      <span class="dec-date">${d.date}</span>
+      <span class="dec-text">${truncate(d.decision,60)}</span>
+      <span class="dec-owner">${d.owner}</span>
+      <span class="dec-status ds-${d.status}">${d.status}</span>
+    </div>
+    <div class="dec-body" id="decb-${d.id}">
+      <div class="dec-inner">
+        ${d.context?`<p style="font-size:12.5px;color:#BCC8DD;line-height:1.6;margin-bottom:8px">${d.context}</p>`:''}
+        <div class="dec-tags">${(d.tags||[]).map(t=>`<span class="dec-tag">${t}</span>`).join('')}</div>
+        <div style="display:flex;gap:8px;margin-top:10px">
+          <button class="edit-btn" onclick="editDecision('${d.id}')">Edit</button>
+          <button class="edit-btn" onclick="createTaskFromDec('${d.id}')" style="color:var(--electric)">Create Task →</button>
+        </div>
+      </div>
+    </div>
+  </div>`).join('');
+  updateOpsBadges();
+}
+
+function toggleDec(id){
+  const el=$('decb-'+id);if(!el)return;
+  el.classList.toggle('open');
+}
+
+function openDecModal(){
+  _editDecId=null;$('decModalTitle').textContent='Add Decision';
+  $('dmDec').value='';$('dmCtx').value='';$('dmOwner').value='Derek';$('dmStatus').value='Active';$('dmTags').value='';
+  $('dmDelBtn').style.display='none';
+  openModal('decModal');
+}
+
+function editDecision(id){
+  const decs=load(OPS_KEYS.decisions,[]);
+  const d=decs.find(x=>x.id===id);if(!d)return;
+  _editDecId=id;$('decModalTitle').textContent='Edit Decision';
+  $('dmDec').value=d.decision;$('dmCtx').value=d.context||'';$('dmOwner').value=d.owner;$('dmStatus').value=d.status;$('dmTags').value=(d.tags||[]).join(', ');
+  $('dmDelBtn').style.display='';
+  openModal('decModal');
+}
+
+function saveDecision(){
+  const dec=$('dmDec').value.trim();if(!dec){toast('Decision required','t-red');return;}
+  const decs=load(OPS_KEYS.decisions,[]);
+  const tags=$('dmTags').value.split(',').map(s=>s.trim()).filter(Boolean);
+  // Save custom tags
+  const existing=load(OPS_KEYS.customTags,[]);
+  const newTags=tags.filter(t=>!existing.includes(t)&&!['Pricing','YC','Product','GTM','ICP','Legal','Hiring','Tech'].includes(t));
+  if(newTags.length)save(OPS_KEYS.customTags,[...existing,...newTags]);
+  if(_editDecId){
+    const d=decs.find(x=>x.id===_editDecId);
+    if(d){d.decision=dec;d.context=$('dmCtx').value;d.owner=$('dmOwner').value;d.status=$('dmStatus').value;d.tags=tags;}
+  } else {
+    decs.push({id:uuid(),date:new Date().toISOString().split('T')[0],decision:dec,context:$('dmCtx').value,owner:$('dmOwner').value,status:$('dmStatus').value,tags,linkedTaskIds:[]});
+  }
+  save(OPS_KEYS.decisions,decs);closeModal('decModal');renderDecisions();
+  toast(_editDecId?'✓ Decision updated':'✓ Decision logged','t-green');_editDecId=null;
+}
+
+function deleteDecision(){
+  if(!_editDecId)return;
+  const decs=load(OPS_KEYS.decisions,[]);
+  const d=decs.find(x=>x.id===_editDecId);
+  if(d)pushUndo('deleteDecision',d);
+  save(OPS_KEYS.decisions,decs.filter(x=>x.id!==_editDecId));
+  closeModal('decModal');renderDecisions();
+  toast('Decision deleted — Cmd+Z to undo','t-amber');_editDecId=null;
+}
+
+function createTaskFromDec(decId){
+  const decs=load(OPS_KEYS.decisions,[]);
+  const d=decs.find(x=>x.id===decId);if(!d)return;
+  openOpsTaskModal('todo');
+  $('otTitle').value='[Decision] '+truncate(d.decision,40);
+  $('otDesc').value='From decision: '+d.decision;
+}
+
+// ── BLOCKERS ──────────────────────────────────────────────────────────
+function renderBlockers(){
+  let blks=load(OPS_KEYS.blockers,[]);
+  const filter=$('blkFilter')?.value||'open';
+  if(filter==='open')blks=blks.filter(b=>!b.resolvedAt);
+  else if(filter==='resolved')blks=blks.filter(b=>b.resolvedAt);
+  blks.sort((a,b)=>{
+    if(a.resolvedAt&&!b.resolvedAt)return 1;if(!a.resolvedAt&&b.resolvedAt)return -1;
+    if(!a.resolvedAt&&!b.resolvedAt)return daysBetween(a.createdAt)-daysBetween(b.createdAt);
+    return 0;
+  });
+  const el=$('blkList');if(!el)return;
+  if(!blks.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">🎉</div><div class="empty-txt">${filter==='open'?"No blockers! That's either great news or nobody's logging them.":"No resolved blockers yet."}</div></div>`;
+    updateOpsBadges();return;
+  }
+  el.innerHTML=blks.map(b=>{
+    const days=b.resolvedAt?0:daysBetween(b.createdAt);
+    const dotCls=days<=2?'d-green':days<=5?'d-amber':'d-red';
+    return `<div class="blk-row ${b.resolvedAt?'resolved':''}">
+      <div class="blk-dot ${dotCls}"></div>
+      <div class="blk-main">
+        <div class="blk-desc">${b.description}</div>
+        <div class="blk-meta">${b.requestedBy} → ${b.requestedFrom}${b.resolution?' · ✓ '+b.resolution:''}</div>
+      </div>
+      ${!b.resolvedAt?`<span class="blk-days">${days}d</span><button class="blk-resolve" onclick="resolveBlocker('${b.id}')">Resolve</button>`:`<span style="font-family:var(--fm);font-size:9px;color:var(--green)">✓ Resolved</span>`}
+    </div>`;
+  }).join('');
+  updateOpsBadges();
+}
+
+function openBlkModal(){$('bmDesc').value='';$('bmFrom').value='Derek';$('bmTo').value='Will';openModal('blkModal');}
+
+function saveBlocker(){
+  const desc=$('bmDesc').value.trim();if(!desc){toast('Description required','t-red');return;}
+  const blks=load(OPS_KEYS.blockers,[]);
+  blks.push({id:uuid(),description:desc,requestedBy:$('bmFrom').value,requestedFrom:$('bmTo').value,createdAt:new Date().toISOString(),resolvedAt:null});
+  save(OPS_KEYS.blockers,blks);closeModal('blkModal');renderBlockers();
+  toast('✓ Blocker added','t-green');
+}
+
+function resolveBlocker(id){
+  const blks=load(OPS_KEYS.blockers,[]);
+  const b=blks.find(x=>x.id===id);if(!b)return;
+  const note=prompt('Resolution note (optional):');
+  b.resolvedAt=new Date().toISOString();b.resolution=note||'';
+  save(OPS_KEYS.blockers,blks);renderBlockers();
+  toast('✓ Blocker resolved','t-green');
+}
+
+// ── INBOX ─────────────────────────────────────────────────────────────
+function renderInbox(){
+  let items=load(OPS_KEYS.inbox,[]);
+  const filter=$('inboxFilter')?.value||'unprocessed';
+  if(filter==='unprocessed')items=items.filter(i=>!i.processed);
+  else if(filter==='processed')items=items.filter(i=>i.processed);
+  items.sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  const el=$('inboxList');if(!el)return;
+  if(!items.length){
+    const msg=filter==='unprocessed'?"Inbox zero! Either you're on top of things or you haven't dumped anything yet.":"No processed items.";
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">📥</div><div class="empty-txt">${msg}</div></div>`;
+    updateOpsBadges();return;
+  }
+  el.innerHTML=items.map(i=>`<div class="inbox-row ${i.processed?'processed':''}">
+    <span class="inbox-time">${formatRelDate(i.createdAt)}</span>
+    <span class="inbox-type it-${i.type}">${i.type}</span>
+    <span class="inbox-text" title="${i.rawText}">${i.type==='URL'?`<a href="${i.rawText}" target="_blank">${truncate(i.rawText,60)}</a>`:truncate(i.rawText,80)}</span>
+    <div class="inbox-acts">
+      ${!i.processed?`<button class="inbox-btn ib-task" onclick="convertInboxToTask('${i.id}')">→ Task</button><button class="inbox-btn" onclick="archiveInboxItem('${i.id}')">Archive</button>`:''}
+    </div>
+  </div>`).join('');
+  updateOpsBadges();
+}
+
+function addInboxItem(){
+  const text=$('inboxInput')?.value.trim();if(!text)return;
+  const items=load(OPS_KEYS.inbox,[]);
+  const type=text.startsWith('http')?'URL':'Note';
+  items.push({id:uuid(),rawText:text,type,createdAt:new Date().toISOString(),processed:false});
+  save(OPS_KEYS.inbox,items);$('inboxInput').value='';renderInbox();
+  toast('✓ Added to inbox','t-green');
+}
+
+function convertInboxToTask(id){
+  const items=load(OPS_KEYS.inbox,[]);
+  const item=items.find(x=>x.id===id);if(!item)return;
+  openOpsTaskModal('todo');
+  $('otTitle').value=truncate(item.rawText,80);
+  item.processed=true;item.archivedAt=new Date().toISOString();
+  save(OPS_KEYS.inbox,items);renderInbox();
+}
+
+function archiveInboxItem(id){
+  const items=load(OPS_KEYS.inbox,[]);
+  const item=items.find(x=>x.id===id);if(!item)return;
+  pushUndo('deleteInbox',{...item,processed:false,archivedAt:null});
+  item.processed=true;item.archivedAt=new Date().toISOString();
+  save(OPS_KEYS.inbox,items);renderInbox();
+  toast('Archived — Cmd+Z to undo','t-amber');
+}
+
+function bulkArchiveInbox(){
+  const items=load(OPS_KEYS.inbox,[]);
+  const processed=items.filter(i=>i.processed);
+  if(!processed.length){toast('Nothing to archive','t-amber');return;}
+  if(!confirm(`Archive ${processed.length} processed items?`))return;
+  save(OPS_KEYS.inbox,items.filter(i=>!i.processed));
+  renderInbox();toast(`✓ ${processed.length} items archived`,'t-green');
+}
+
+// ── MEETING NOTES ─────────────────────────────────────────────────────
+let _editMtgActionsId=null;
+
+function renderMeetings(){
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  const el=$('mtgList');if(!el)return;
+  if(!mtgs.length){el.innerHTML='<div class="empty-state"><div class="empty-icon">📝</div><div class="empty-txt">No meeting notes yet. Paste your Fireflies/Fathom transcript to get started.</div></div>';updateOpsBadges();return;}
+  el.innerHTML=mtgs.map((m,idx)=>{
+    const pending=(m.extractedActions||[]).filter(a=>!a.converted).length;
+    const isOpen=m._open;
+    return `<div class="mtg-card">
+      <div class="mtg-hdr ${isOpen?'open':''}" onclick="toggleMtg(${idx})">
+        <div class="mtg-info">
+          <div class="mtg-title">${m.meetingTitle||'Untitled Meeting'}</div>
+          <div class="mtg-meta">${m.meetingDate} · ${(m.attendees||[]).join(', ')}</div>
+        </div>
+        ${pending?`<span class="mtg-badge">${pending} actions pending</span>`:`<span style="font-family:var(--fm);font-size:9px;color:var(--green)">✓</span>`}
+        <span class="mtg-chev ${isOpen?'open':''}">▼</span>
+      </div>
+      <div class="mtg-body ${isOpen?'open':''}">
+        <div class="mtg-inner">
+          ${m.rawNotes?`<div class="sec-eye">Notes</div><div class="mtg-notes">${m.rawNotes.replace(/\n/g,'<br>')}</div>`:''}
+          <div class="sec-eye" style="margin-top:10px">Action Items</div>
+          ${(m.extractedActions||[]).length?m.extractedActions.map((a,ai)=>`<div class="mtg-action-row">
+            <span class="mtg-action-text ${a.converted?'converted':''}">${a.text}</span>
+            ${a.owner?founderAvatar(a.owner,18):''}
+            ${!a.converted?`<button class="inbox-btn ib-task" onclick="convertMtgAction(${idx},${ai})">→ Task</button>`:`<span style="font-family:var(--fm);font-size:8px;color:var(--green)">✓</span>`}
+          </div>`).join(''):'<div style="font-size:11px;color:var(--mid)">No actions extracted</div>'}
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="edit-btn" onclick="openMtgActionsModal(${idx})">+ Extract Actions</button>
+            ${pending?`<button class="edit-btn" style="color:var(--electric)" onclick="createAllMtgTasks(${idx})">Create All Tasks →</button>`:''}
+            <button class="edit-btn" style="color:var(--red)" onclick="deleteMeeting(${idx})">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  updateOpsBadges();
+}
+
+function toggleMtg(idx){
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  mtgs[idx]._open=!mtgs[idx]._open;save(OPS_KEYS.meetingNotes,mtgs);renderMeetings();
+}
+
+function openMtgModal(){
+  $('mmTitle').value='';$('mmDate').value=new Date().toISOString().split('T')[0];$('mmNotes').value='';
+  const el=$('mmAttendees');
+  el.innerHTML=FOUNDERS.map(f=>`<label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--steel);cursor:pointer"><input type="checkbox" value="${f}" ${f==='Derek'?'checked':''}> ${f}</label>`).join('');
+  openModal('mtgModal');
+}
+
+function saveMeeting(){
+  const notes=$('mmNotes').value.trim();
+  if(!notes){toast('Add notes','t-red');return;}
+  const attendees=[...$('mmAttendees').querySelectorAll('input:checked')].map(c=>c.value);
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  mtgs.unshift({id:uuid(),meetingTitle:$('mmTitle').value,meetingDate:$('mmDate').value,attendees,rawNotes:notes,extractedActions:[],processedAt:null});
+  save(OPS_KEYS.meetingNotes,mtgs);closeModal('mtgModal');renderMeetings();
+  toast('✓ Meeting saved','t-green');
+}
+
+function deleteMeeting(idx){
+  if(!confirm('Delete this meeting?'))return;
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);mtgs.splice(idx,1);
+  save(OPS_KEYS.meetingNotes,mtgs);renderMeetings();
+}
+
+function openMtgActionsModal(idx){
+  _editMtgActionsId=idx;$('maActions').value='';openModal('mtgActionsModal');
+}
+
+function saveMtgActions(){
+  const lines=$('maActions').value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!lines.length){toast('Add at least one action','t-red');return;}
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  const m=mtgs[_editMtgActionsId];if(!m)return;
+  if(!m.extractedActions)m.extractedActions=[];
+  lines.forEach(text=>{m.extractedActions.push({id:uuid(),text,owner:null,converted:false,taskId:null});});
+  save(OPS_KEYS.meetingNotes,mtgs);closeModal('mtgActionsModal');renderMeetings();
+  toast(`✓ ${lines.length} actions added`,'t-green');
+}
+
+function convertMtgAction(mtgIdx,actIdx){
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  const a=mtgs[mtgIdx]?.extractedActions?.[actIdx];if(!a)return;
+  openOpsTaskModal('todo');
+  $('otTitle').value=a.text;
+  if(a.owner)$('otOwner').value=a.owner;
+  a.converted=true;
+  save(OPS_KEYS.meetingNotes,mtgs);renderMeetings();
+}
+
+function createAllMtgTasks(mtgIdx){
+  const mtgs=load(OPS_KEYS.meetingNotes,[]);
+  const m=mtgs[mtgIdx];if(!m)return;
+  const pending=(m.extractedActions||[]).filter(a=>!a.converted);
+  if(!pending.length)return;
+  if(!confirm(`Create ${pending.length} tasks from this meeting?`))return;
+  const tasks=load(OPS_KEYS.tasks,[]);
+  const now=new Date().toISOString();
+  pending.forEach(a=>{
+    tasks.push({id:uuid(),title:a.text,description:'From meeting: '+(m.meetingTitle||'Untitled'),owner:a.owner||'Derek',priority:'P2',department:'Ops',dueDate:null,status:'todo',blockerNote:'',createdAt:now,updatedAt:now,completedAt:null});
+    a.converted=true;a.taskId=tasks[tasks.length-1].id;
+  });
+  save(OPS_KEYS.tasks,tasks);save(OPS_KEYS.meetingNotes,mtgs);
+  renderMeetings();renderOpsKanban();
+  toast(`✓ ${pending.length} tasks created`,'t-green');
+}
+
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────
+function exportOpsData(){
+  const data={version:'1.0',exportedAt:new Date().toISOString()};
+  Object.entries(OPS_KEYS).forEach(([k,sk])=>{data[k]=load(sk,null);});
+  // Also export existing GTM data
+  data.gtm={firms:ST.firms,followups:ST.followups,transcripts:ST.transcripts,tasks:ST.tasks,templates:ST.templates,objections:ST.objections,sops:ST.sops,settings:ST.settings};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`inre-ops-backup-${new Date().toISOString().split('T')[0]}.json`;a.click();
+  URL.revokeObjectURL(url);toast('✓ Data exported','t-green');
+}
+
+function importOpsData(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!data.version){toast('Invalid backup file','t-red');return;}
+      if(!confirm('Import will replace current Ops data. Continue?'))return;
+      Object.entries(OPS_KEYS).forEach(([k,sk])=>{if(data[k]!==undefined)save(sk,data[k]);});
+      if(data.gtm){
+        if(data.gtm.firms){ST.firms=data.gtm.firms;save('irs_firms',ST.firms);}
+        if(data.gtm.followups){ST.followups=data.gtm.followups;save('irs_followups',ST.followups);}
+      }
+      renderAllOps();renderAll();toast('✓ Data imported','t-green');
+    }catch(err){toast('Import failed — invalid file','t-red');}
+  };
+  reader.readAsText(file);event.target.value='';
+}
+
+// ── KEYBOARD SHORTCUTS ────────────────────────────────────────────────
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){
+    e.preventDefault();
+    // Context-aware quick add
+    const opsView=$('view-ops');
+    if(opsView?.classList.contains('on')){
+      const tab=load(OPS_KEYS.activeTab,0);
+      if(tab===0)quickAddTask('todo');
+      else if(tab===4){$('inboxInput')?.focus();}
+      else if(tab===2)openDecModal();
+      else if(tab===3)openBlkModal();
+      else quickAddTask('todo');
+    }
+  }
+  if(e.key==='Escape'){
+    document.querySelectorAll('.overlay.on').forEach(o=>o.classList.remove('on'));
+  }
+  if((e.metaKey||e.ctrlKey)&&e.key==='z'&&!e.shiftKey){
+    e.preventDefault();undoLastAction();
+  }
+  if(!e.metaKey&&!e.ctrlKey&&!e.altKey&&!isInputFocused()){
+    const opsView=$('view-ops');
+    if(opsView?.classList.contains('on')&&['1','2','3','4','5','6'].includes(e.key)){
+      e.preventDefault();switchOpsTab(parseInt(e.key)-1);
+    }
+  }
+});
+
+// Update existing renderAll to include ops
+const _origRenderAll = renderAll;
+
 // ── INIT ───────────────────────────────────────────────────────────────
 initDate();
 renderAll();
 initLeads();
+initOps();
 </script>
 </body>
 </html>
