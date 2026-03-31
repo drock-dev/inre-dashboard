@@ -356,6 +356,19 @@ textarea.fi{resize:vertical;min-height:80px;}
 .toast.t-amber{border-left:3px solid var(--amber);}
 .toast.t-blue{border-left:3px solid var(--electric);}
 
+/* ── SHEETS INTEGRATION ── */
+.sheets-status{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--s3);border-radius:6px;margin-bottom:14px;font-size:12px;color:var(--steel);}
+.sheets-status .sync-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sheets-status .sd-green{background:var(--green);} .sheets-status .sd-yellow{background:var(--amber);animation:pulse 1.4s infinite;} .sheets-status .sd-red{background:var(--red);} .sheets-status .sd-gray{background:var(--mid);}
+.sheet-url-row{display:grid;grid-template-columns:90px 1fr auto;gap:8px;align-items:center;margin-bottom:6px;}
+.sheet-url-row label{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--steel);}
+.sheet-url-row .settings-input{font-size:10px;padding:6px 10px;}
+.sheet-url-row .save-btn{padding:6px 10px;font-size:8px;}
+.global-sync{display:flex;align-items:center;gap:5px;font-family:var(--fm);font-size:9px;color:var(--steel);opacity:.7;cursor:pointer;transition:opacity .15s;}
+.global-sync:hover{opacity:1;}
+.global-sync .gs-dot{width:6px;height:6px;border-radius:50%;background:var(--mid);}
+.global-sync .gs-dot.gsd-green{background:var(--green);} .global-sync .gs-dot.gsd-yellow{background:var(--amber);} .global-sync .gs-dot.gsd-red{background:var(--red);}
+
 /* ── TECH STACK ── */
 .tech-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
 .ts-kpi{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px 12px;position:relative;overflow:hidden;}
@@ -612,9 +625,13 @@ textarea.fi{resize:vertical;min-height:80px;}
   <div class="brand">IN <em>RE</em></div>
   <div class="topbar-mid">GTM Command Center</div>
   <div class="topbar-right">
+    <div class="global-sync" id="globalSync" onclick="syncAllSheets()" title="Sync all Google Sheets">
+      <span class="gs-dot" id="gsDot"></span>
+      <span id="gsText">Sheets</span>
+    </div>
     <div class="date-pill" id="datePill"></div>
-    <button class="tbtn tbtn-blue" id="sheetSyncBtn" onclick="syncSheet()">
-      <div class="pulse"></div> Sync Sheet
+    <button class="tbtn tbtn-blue" id="sheetSyncBtn" onclick="syncAllSheets()">
+      <div class="pulse"></div> Sync Sheets
     </button>
     <button class="tbtn tbtn-red" id="ffSyncBtn" onclick="syncFireflies()">
       <div class="pulse"></div> Sync Fireflies
@@ -735,7 +752,7 @@ textarea.fi{resize:vertical;min-height:80px;}
       <div class="sheet-title" id="sheetStatusTitle">Google Sheet Sync</div>
       <div class="sheet-sub" id="sheetStatusSub">Add your Sheet CSV URL in Settings to start syncing</div>
     </div>
-    <button class="sheet-sync-btn" onclick="syncSheet()">Sync Now</button>
+    <button class="sheet-sync-btn" onclick="syncAllSheets()">Sync Now</button>
   </div>
   <div id="leadsContent">
     <div class="setup-prompt">
@@ -936,39 +953,22 @@ textarea.fi{resize:vertical;min-height:80px;}
   <div class="ph"><div class="ph-eye">System</div><div class="ph-title">Settings</div></div>
 
   <div class="settings-section">
-    <div class="settings-title">Google Sheet Integration</div>
-    <div class="setting-row">
-      <div class="setting-info">
-        <div class="setting-name">Sheet CSV URL</div>
-        <div class="setting-desc">Your Sheet must be published to the web as CSV for sync to work.</div>
-      </div>
+    <div class="settings-title">Google Sheets Integration</div>
+    <div class="settings-hint">Your dashboard pulls live data from these published Google Sheet tabs. <code>File → Share → Publish to web → CSV</code></div>
+    <div class="sheets-status" id="sheetsStatusBar">
+      <span class="sync-dot sd-gray" id="ssBarDot"></span>
+      <span style="flex:1">Last sync: <span id="ssLastSync">Never</span></span>
+      <button class="save-btn" style="background:var(--electric);padding:5px 10px;font-size:8px" onclick="syncAllSheets()">↻ Sync All</button>
     </div>
-    <div class="input-row">
-      <input class="settings-input" id="sheetUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../export?format=csv&gid=0">
-      <button class="save-btn" onclick="saveSheetUrl()">Save</button>
-      <button class="save-btn" style="background:var(--s3);color:var(--steel)" onclick="testSheet()">Test</button>
+    <div id="sheetUrlRows">
+      <div class="sheet-url-row"><label>Tech Stack</label><input class="settings-input" id="surlTechstack" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('techstack')">Test</button></div>
+      <div class="sheet-url-row"><label>Firms</label><input class="settings-input" id="surlFirms" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('firms')">Test</button></div>
+      <div class="sheet-url-row"><label>Pipeline</label><input class="settings-input" id="surlPipeline" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('pipeline')">Test</button></div>
+      <div class="sheet-url-row"><label>Inbox</label><input class="settings-input" id="surlInbox" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('inbox')">Test</button></div>
+      <div class="sheet-url-row"><label>Transcripts</label><input class="settings-input" id="surlTranscripts" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('transcripts')">Test</button></div>
+      <div class="sheet-url-row"><label>Tasks</label><input class="settings-input" id="surlTasks" type="text"><button class="save-btn" style="background:var(--s3);color:var(--steel);padding:5px 8px;font-size:8px" onclick="testOneSheet('tasks')">Test</button></div>
     </div>
-    <div class="settings-hint">
-      In Google Sheets: <code>File → Share → Publish to web → CSV → Publish</code> → copy that URL → paste above.
-    </div>
-  </div>
-
-  <div class="settings-section">
-    <div class="settings-title">Tech Stack Sheet</div>
-    <div class="setting-row">
-      <div class="setting-info">
-        <div class="setting-name">Tech Stack CSV URL</div>
-        <div class="setting-desc">Publish your "TechStack" tab as CSV. Columns: id, service, category, username, email, cost, billingCycle, billingDate, status, notes, url</div>
-      </div>
-    </div>
-    <div class="input-row">
-      <input class="settings-input" id="tsSheetUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../gviz/tq?tqx=out:csv&sheet=TechStack">
-      <button class="save-btn" onclick="saveTSUrl()">Save</button>
-      <button class="save-btn" style="background:var(--s3);color:var(--steel)" onclick="testTSUrl()">Test</button>
-    </div>
-    <div class="settings-hint">
-      In Google Sheets: <code>File → Share → Publish to web</code> → Select <code>TechStack</code> tab → CSV → Publish → paste URL above.
-    </div>
+    <div style="margin-top:10px"><button class="save-btn" onclick="saveAllSheetUrls()">Save All URLs</button></div>
   </div>
 
   <div class="settings-section">
@@ -1337,7 +1337,6 @@ function renderAll() {
   renderYC(); renderWeekChart(); renderPitch(); renderObjections();
   updateBadges(); loadSettings();
   if(typeof renderAllOps==='function')renderAllOps();
-  if(typeof loadTSSettings==='function')loadTSSettings();
   if(typeof updateTSBadge==='function')updateTSBadge(_tsData||[]);
 }
 
@@ -1459,35 +1458,7 @@ function deleteFirm(i) {
   ST.firms.splice(i,1); persist(); renderPipeline(); renderKPIs(); updateBadges();
 }
 
-// ── SHEET SYNC ─────────────────────────────────────────────────────────
-async function syncSheet() {
-  const url = ST.settings.sheetUrl;
-  if (!url) { toast('Add your Sheet URL in Settings first','t-amber'); nav(document.querySelector('[data-view=settings]')); return; }
-  $('sheetSyncBtn').disabled = true;
-  $('sheetSyncBtn').textContent = 'Syncing...';
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    const csv = await res.text();
-    const rows = parseCSV(csv);
-    ST.sheetCache = rows;
-    ST.sheetSync = new Date().toISOString();
-    save('irs_sheetCache', rows);
-    save('irs_sheetSync', ST.sheetSync);
-    renderLeads(rows);
-    toast(`✓ ${rows.length - 1} leads loaded from Sheet`, 't-green');
-    updateBadges();
-  } catch(e) {
-    if (ST.sheetCache) {
-      renderLeads(ST.sheetCache, true);
-      toast('⚠ Using cached data — check Sheet URL in Settings', 't-amber');
-    } else {
-      toast('✗ Sync failed — check Sheet URL in Settings', 't-red');
-    }
-  }
-  $('sheetSyncBtn').disabled = false;
-  $('sheetSyncBtn').innerHTML = '<div class="pulse"></div> Sync Sheet';
-}
+// ── SHEET SYNC (legacy — now handled by syncAllSheets) ────────────────
 
 function parseCSV(csv) {
   const lines = csv.split('\n').filter(l=>l.trim());
@@ -1533,10 +1504,9 @@ function filterLeads() {
   });
 }
 
-// On load — try to render cached sheet data
+// On load — render cached leads data (live sync handled by syncAllSheets)
 function initLeads() {
   if (ST.sheetCache) { renderLeads(ST.sheetCache); updateBadges(); }
-  else if (ST.settings.sheetUrl) syncSheet();
 }
 
 // ── TRANSCRIPTS ────────────────────────────────────────────────────────
@@ -1878,34 +1848,223 @@ function renderWeekChart() {
 // ── SETTINGS SAVE ──────────────────────────────────────────────────────
 function loadSettings() {
   const s = ST.settings;
-  if ($('sheetUrl')) $('sheetUrl').value = s.sheetUrl||'';
   if ($('ffKey')) $('ffKey').value = s.ffKey||'';
   if ($('aiKey')) $('aiKey').value = s.aiKey||'';
   if ($('setupFee')) $('setupFee').value = s.setupFee||20000;
   if ($('tog-extract')) $('tog-extract').className = 'toggle'+(s.autoExtract!==false?' on':'');
   if ($('tog-score')) $('tog-score').className = 'toggle'+(s.autoScore!==false?' on':'');
   if ($('tog-fu')) $('tog-fu').className = 'toggle'+(s.autoFU!==false?' on':'');
+  // Load sheet URLs into settings inputs
+  SHEET_NAMES.forEach(k=>{const el=$('surl'+capitalize(k));if(el)el.value=localStorage.getItem('irs_sheets_'+k+'_url')||SHEET_URLS[k]||'';});
+  updateGlobalSyncStatus();
 }
-function saveSheetUrl() { ST.settings.sheetUrl=$('sheetUrl').value.trim(); persist(); toast('✓ Sheet URL saved','t-green'); }
 function saveFFKey() { ST.settings.ffKey=$('ffKey').value.trim(); persist(); toast('✓ Fireflies key saved','t-green'); }
 function saveAIKey() { ST.settings.aiKey=$('aiKey').value.trim(); persist(); toast('✓ Anthropic key saved','t-green'); }
 function savePricing() { ST.settings.setupFee=parseInt($('setupFee').value)||20000; persist(); toast('✓ Pricing saved','t-green'); renderKPIs(); }
 function saveSetting(key,val) { ST.settings[key]=val; persist(); }
-async function testSheet() {
-  const url = ST.settings.sheetUrl;
-  if (!url) { toast('Save a Sheet URL first','t-amber'); return; }
-  try {
-    const res = await fetch(url);
-    if (!res.ok) throw new Error();
-    toast('✓ Sheet connection works!','t-green');
-  } catch(e) {
-    toast('✗ Could not reach Sheet — check URL and publish settings','t-red');
+
+// ── GOOGLE SHEETS INTEGRATION ─────────────────────────────────────────
+const SHEET_URLS = {
+  techstack:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=698387515&single=true&output=csv',
+  firms:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=147713746&single=true&output=csv',
+  pipeline:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=471887859&single=true&output=csv',
+  inbox:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=1613716316&single=true&output=csv',
+  transcripts:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=1805009158&single=true&output=csv',
+  tasks:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRTSMqddxxsoS0kKM-Lo1LlKq0qh0G-bkdebKwZQ7ogmNXrkvOk8-f-dhLrtHq5N-jGUnizFXlOMZRg/pub?gid=1839443308&single=true&output=csv'
+};
+const SHEET_NAMES = Object.keys(SHEET_URLS);
+
+function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+function initSheetUrls(){
+  SHEET_NAMES.forEach(k=>{
+    const sk='irs_sheets_'+k+'_url';
+    if(!localStorage.getItem(sk))localStorage.setItem(sk,SHEET_URLS[k]);
+  });
+}
+
+function saveAllSheetUrls(){
+  SHEET_NAMES.forEach(k=>{
+    const el=$('surl'+capitalize(k));
+    if(el&&el.value.trim())localStorage.setItem('irs_sheets_'+k+'_url',el.value.trim());
+  });
+  toast('✓ All Sheet URLs saved','t-green');
+}
+
+function getSheetUrl(key){return localStorage.getItem('irs_sheets_'+key+'_url')||SHEET_URLS[key]||'';}
+
+// CSV line parser — handles quoted strings with commas
+function parseCSVLine(line){
+  const result=[];let current='',inQuotes=false;
+  for(const char of line){
+    if(char==='"')inQuotes=!inQuotes;
+    else if(char===','&&!inQuotes){result.push(current);current='';}
+    else current+=char;
+  }
+  result.push(current);return result;
+}
+
+// Shared CSV parser (replaces old parseCSV)
+function parseSheetCSV(csv){
+  const lines=csv.split('\n').filter(l=>l.trim());
+  if(lines.length<2)return[];
+  const headers=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
+  return lines.slice(1).map(line=>{
+    const vals=parseCSVLine(line);
+    const obj={};
+    headers.forEach((h,i)=>{
+      let v=(vals[i]||'').replace(/"/g,'').trim();
+      if(['cost','value','probability','billingDate'].includes(h))v=parseFloat(v)||0;
+      if(['processed','done'].includes(h))v=v.toUpperCase()==='TRUE';
+      obj[h]=v;
+    });
+    return obj;
+  });
+}
+
+// Fetch a single sheet with cache fallback
+// Google Sheets /pub? CSV redirects through docs.google.com (no CORS) →
+// googleusercontent.com (CORS: *). Browsers block the initial 307 from file:// origins.
+// Works fine from http://localhost. Run: ./start.sh
+async function fetchSheet(sheetKey){
+  const url=getSheetUrl(sheetKey);
+  const cacheKey='irs_cache_'+sheetKey;
+  if(!url)return loadSheetCache(cacheKey);
+  try{
+    const res=await fetch(url,{redirect:'follow'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const csv=await res.text();
+    if(csv.startsWith('<!DOCTYPE')||csv.startsWith('<html'))throw new Error('Got HTML not CSV');
+    const data=parseSheetCSV(csv);
+    localStorage.setItem(cacheKey,JSON.stringify({data,cachedAt:new Date().toISOString()}));
+    return{data,fromCache:false};
+  }catch(e){
+    if(location.protocol==='file:')console.warn(`Sheet fetch blocked by CORS (file:// origin). Run ./start.sh to serve via localhost.`);
+    else console.warn('Sheet fetch failed for '+sheetKey,e.message);
+    return loadSheetCache(cacheKey);
   }
 }
+
+function loadSheetCache(cacheKey){
+  try{const c=JSON.parse(localStorage.getItem(cacheKey));if(c?.data)return{data:c.data,fromCache:true,cachedAt:c.cachedAt};}catch(e){}
+  return{data:[],fromCache:true,error:'No cache'};
+}
+
+// Sync all sheets
+async function syncAllSheets(){
+  setGlobalSync('syncing');
+  $('sheetSyncBtn').disabled=true;$('sheetSyncBtn').textContent='Syncing...';
+  const results=await Promise.all(SHEET_NAMES.map(k=>fetchSheet(k).then(r=>({key:k,...r}))));
+  const failures=results.filter(r=>r.fromCache&&r.error).length;
+  localStorage.setItem('irs_sheets_last_sync',new Date().toISOString());
+
+  // Route data to views
+  for(const r of results){
+    if(r.data.length)applySheetData(r.key,r.data,r.fromCache);
+  }
+  const allFailed=failures===SHEET_NAMES.length;
+  setGlobalSync(allFailed?'partial':failures>0?'partial':'connected');
+  $('sheetSyncBtn').disabled=false;$('sheetSyncBtn').innerHTML='<div class="pulse"></div> Sync Sheets';
+  updateGlobalSyncStatus();
+  if(allFailed&&location.protocol==='file:')toast('CORS blocked — run ./start.sh to serve via localhost','t-red');
+  else if(failures>0)toast(`Synced with ${failures} failures`,'t-amber');
+  else toast('✓ All sheets synced','t-green');
+}
+
+function applySheetData(key,data,fromCache){
+  if(key==='techstack'){_tsData=data;renderTSFull(data);updateTSBadge(data);}
+  else if(key==='firms'){
+    // Merge into ST.firms — sheet is source of truth
+    ST.firms=data.map(r=>({id:r.id||r.name,name:r.name||r.service||'',type:r.type||r.practiceArea||'',contact:r.contact||'',stage:r.stage||'contacted',notes:r.notes||'',date:r.date||r.dateAdded||'',value:parseFloat(r.value)||0})).filter(f=>f.name);
+    persist();renderPipeline();renderKPIs();updateBadges();
+  }
+  else if(key==='pipeline'){
+    // Pipeline data for the Leads sheet view
+    ST.sheetCache=data.map(r=>Object.values(r));
+    if(data.length){ST.sheetCache.unshift(Object.keys(data[0]));}
+    ST.sheetSync=new Date().toISOString();
+    save('irs_sheetCache',ST.sheetCache);save('irs_sheetSync',ST.sheetSync);
+    if(typeof renderLeads==='function'&&ST.sheetCache)renderLeads(ST.sheetCache,fromCache);
+    updateBadges();
+  }
+  else if(key==='transcripts'){
+    const sheetTCIds=new Set(data.map(r=>r.id).filter(Boolean));
+    const localOnly=ST.transcripts.filter(t=>!t.id||!sheetTCIds.has(t.id.toString()));
+    const sheetTCs=data.map(r=>({id:r.id,firm:r.firm||r.title||'',text:r.text||r.rawNotes||'',date:r.date||'',analyzing:false,actions:r.actions?JSON.parse(r.actions||'[]'):[],score:r.score||'Warm',summary:r.summary||'',painPoints:r.painPoints?r.painPoints.split(';'):[],nextStep:r.nextStep||'',_open:false})).filter(t=>t.firm);
+    ST.transcripts=[...sheetTCs,...localOnly];
+    persist();renderTranscripts();updateBadges();
+  }
+  else if(key==='tasks'){
+    const opsTasks=load('irs_ops_tasks',[]);
+    const sheetIds=new Set(data.map(r=>r.id).filter(Boolean));
+    const localOnly=opsTasks.filter(t=>!sheetIds.has(t.id));
+    const sheetTasks=data.map(r=>({id:r.id||uuid(),title:r.title||'',description:r.description||'',owner:r.owner||'Derek',priority:r.priority||'P2',department:r.department||'Ops',status:r.status||'todo',blockerNote:r.blockerNote||'',dueDate:r.dueDate||null,createdAt:r.createdAt||new Date().toISOString(),updatedAt:r.updatedAt||new Date().toISOString(),completedAt:r.completedAt||null})).filter(t=>t.title);
+    save('irs_ops_tasks',[...sheetTasks,...localOnly]);
+    if(typeof renderOpsKanban==='function')renderOpsKanban();
+  }
+  else if(key==='inbox'){
+    const opsInbox=load('irs_ops_inbox',[]);
+    const sheetIds=new Set(data.map(r=>r.id).filter(Boolean));
+    const localOnly=opsInbox.filter(i=>!sheetIds.has(i.id));
+    const sheetItems=data.map(r=>({id:r.id||uuid(),rawText:r.rawText||r.text||'',type:r.type||'Note',createdAt:r.createdAt||new Date().toISOString(),processed:r.processed===true||r.processed==='TRUE',archivedAt:r.archivedAt||null})).filter(i=>i.rawText);
+    save('irs_ops_inbox',[...sheetItems,...localOnly]);
+    if(typeof renderInbox==='function')renderInbox();
+    if(typeof updateOpsBadges==='function')updateOpsBadges();
+  }
+}
+
+// Global sync status
+function setGlobalSync(state){
+  const dot=$('gsDot'),txt=$('gsText'),bdot=$('ssBarDot');
+  if(dot){
+    if(state==='connected'){dot.className='gs-dot gsd-green';}
+    else if(state==='syncing'){dot.className='gs-dot gsd-yellow';}
+    else if(state==='partial'){dot.className='gs-dot gsd-red';}
+    else{dot.className='gs-dot';}
+  }
+  if(txt){
+    if(state==='syncing')txt.textContent='Syncing...';
+    else{const ls=localStorage.getItem('irs_sheets_last_sync');txt.textContent=ls?formatTSAgo(ls):'Sheets';}
+  }
+  if(bdot){
+    if(state==='connected')bdot.className='sync-dot sd-green';
+    else if(state==='syncing')bdot.className='sync-dot sd-yellow';
+    else if(state==='partial')bdot.className='sync-dot sd-red';
+    else bdot.className='sync-dot sd-gray';
+  }
+}
+
+function updateGlobalSyncStatus(){
+  const ls=localStorage.getItem('irs_sheets_last_sync');
+  const el=$('ssLastSync');if(el)el.textContent=ls?formatTSAgo(ls):'Never';
+  const dot=$('gsDot'),txt=$('gsText');
+  if(dot&&ls)dot.className='gs-dot gsd-green';
+  if(txt&&ls)txt.textContent=formatTSAgo(ls);
+}
+
+async function testOneSheet(key){
+  const el=$('surl'+capitalize(key));
+  const url=el?.value?.trim();
+  if(!url){toast('No URL for '+key,'t-amber');return;}
+  // Use same fetchSheet logic to test
+  const origUrl=localStorage.getItem('irs_sheets_'+key+'_url');
+  localStorage.setItem('irs_sheets_'+key+'_url',url);
+  const result=await fetchSheet(key);
+  if(origUrl)localStorage.setItem('irs_sheets_'+key+'_url',origUrl);
+  if(result.data.length&&!result.fromCache){
+    toast(`✓ ${key}: ${result.data.length} rows`,'t-green');
+    el.style.borderColor='var(--green)';setTimeout(()=>{el.style.borderColor='';},3000);
+  }else{
+    toast(`✗ ${key}: connection failed`,'t-red');
+    el.style.borderColor='var(--red)';setTimeout(()=>{el.style.borderColor='';},3000);
+  }
+}
+
 function resetAll() {
   ['irs_firms','irs_followups','irs_transcripts','irs_tasks','irs_templates','irs_objections','irs_sops','irs_week','irs_settings','irs_sheetCache','irs_sheetSync',
    'irs_ops_tasks','irs_ops_tasks_archive','irs_ops_weekly_commitments','irs_ops_weekly_archive','irs_ops_decisions','irs_ops_blockers','irs_ops_inbox','irs_ops_meeting_notes','irs_ops_active_tab','irs_ops_custom_tags',
-   'irs_sheets_techstack_url','irs_techstack_cache','irs_techstack_syncTime'].forEach(k=>localStorage.removeItem(k));
+   'irs_sheets_techstack_url','irs_techstack_cache','irs_techstack_syncTime','irs_sheets_last_sync',
+   ...SHEET_NAMES.map(k=>'irs_sheets_'+k+'_url'),...SHEET_NAMES.map(k=>'irs_cache_'+k)].forEach(k=>localStorage.removeItem(k));
   location.reload();
 }
 
@@ -2000,47 +2159,22 @@ function initTSBillingSelect(){
 }
 
 async function loadTechStack(){
-  const url=localStorage.getItem('irs_sheets_techstack_url');
+  const url=getSheetUrl('techstack');
   if(!url){renderTSSetup();return;}
   setTSSync('syncing');
-  try{
-    const res=await fetch(url);
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const csv=await res.text();
-    const data=parseTSCSV(csv);
-    _tsData=data;
-    cacheTSData(data);
-    renderTSFull(data);
-    setTSSync('connected');
-  }catch(e){
-    const cached=loadTSCache();
-    if(cached){_tsData=cached;renderTSFull(cached);setTSSync('cached');}
-    else{renderTSError();setTSSync('error');}
+  const result=await fetchSheet('techstack');
+  if(result.data.length){
+    _tsData=result.data;renderTSFull(result.data);
+    setTSSync(result.fromCache?'cached':'connected');
+    updateTSBadge(result.data);
+  } else if(result.fromCache&&result.error){
+    renderTSError();setTSSync('error');
+  } else {
+    renderTSFull([]);setTSSync('connected');
   }
 }
 
-function parseTSCSV(csv){
-  const lines=csv.split('\n').filter(l=>l.trim());
-  if(lines.length<2)return[];
-  const headers=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
-  return lines.slice(1).map(line=>{
-    const vals=parseCSVLine(line);
-    const obj={};
-    headers.forEach((h,i)=>{obj[h]=(vals[i]||'').replace(/"/g,'').trim();});
-    obj.cost=parseFloat(obj.cost)||0;
-    obj.billingDate=parseInt(obj.billingDate)||null;
-    return obj;
-  }).filter(r=>r.service);
-}
-
-function parseCSVLine(line){
-  const result=[];let cur='',inQ=false;
-  for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){result.push(cur);cur='';}else cur+=c;}
-  result.push(cur);return result;
-}
-
-function cacheTSData(data){localStorage.setItem('irs_techstack_cache',JSON.stringify({data,cachedAt:new Date().toISOString()}));}
-function loadTSCache(){try{const c=JSON.parse(localStorage.getItem('irs_techstack_cache'));return c?.data||null;}catch(e){return null;}}
+// parseTSCSV/parseCSVLine/cacheTSData/loadTSCache removed — using shared parseSheetCSV/fetchSheet
 
 function setTSSync(state){
   const dot=$('tsSyncDot'),txt=$('tsSyncText');if(!dot)return;
@@ -2226,25 +2360,7 @@ function updateTSBadge(data){
   const el=$('nb-ts');if(el)el.textContent=n;
 }
 
-// Settings
-function saveTSUrl(){
-  const url=$('tsSheetUrl')?.value.trim();
-  if(url)localStorage.setItem('irs_sheets_techstack_url',url);
-  else localStorage.removeItem('irs_sheets_techstack_url');
-  toast('✓ Tech Stack URL saved','t-green');
-}
-
-async function testTSUrl(){
-  const url=$('tsSheetUrl')?.value.trim()||localStorage.getItem('irs_sheets_techstack_url');
-  if(!url){toast('Save a URL first','t-amber');return;}
-  try{const res=await fetch(url);if(!res.ok)throw new Error();toast('✓ Tech Stack sheet connection works!','t-green');}
-  catch(e){toast('✗ Could not reach sheet — check URL','t-red');}
-}
-
-function loadTSSettings(){
-  const url=localStorage.getItem('irs_sheets_techstack_url');
-  if($('tsSheetUrl'))$('tsSheetUrl').value=url||'';
-}
+// TS settings now handled by unified sheet settings
 
 // Add modal
 function openTechModal(){
@@ -2271,12 +2387,11 @@ function copyTSRow(){
 }
 
 function initTechStack(){
-  loadTSSettings();
-  const url=localStorage.getItem('irs_sheets_techstack_url');
+  const url=getSheetUrl('techstack');
   if(url){
-    const cached=loadTSCache();
-    if(cached){_tsData=cached;renderTSFull(cached);setTSSync('connected');updateTSBadge(cached);}
-    loadTechStack();
+    const cached=loadSheetCache('irs_cache_techstack');
+    if(cached.data?.length){_tsData=cached.data;renderTSFull(cached.data);setTSSync('connected');updateTSBadge(cached.data);}
+    // Full load happens via syncAllSheets on init
   } else {
     renderTSSetup();updateTSBadge([]);
   }
@@ -3079,10 +3194,15 @@ const _origRenderAll = renderAll;
 
 // ── INIT ───────────────────────────────────────────────────────────────
 initDate();
+initSheetUrls();
 renderAll();
 initLeads();
 initTechStack();
 initOps();
+// Auto-sync all sheets on load
+syncAllSheets();
+// Update sync status every minute
+setInterval(updateGlobalSyncStatus, 60000);
 </script>
 </body>
 </html>
