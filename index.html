@@ -356,6 +356,83 @@ textarea.fi{resize:vertical;min-height:80px;}
 .toast.t-amber{border-left:3px solid var(--amber);}
 .toast.t-blue{border-left:3px solid var(--electric);}
 
+/* ── TECH STACK ── */
+.tech-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.ts-kpi{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:14px 12px;position:relative;overflow:hidden;}
+.ts-kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.ts-kpi.ts-burn::before{background:var(--red);} .ts-kpi.ts-active::before{background:var(--green);} .ts-kpi.ts-next::before{background:var(--amber);}
+.ts-kpi-v{font-family:var(--fd);font-size:24px;font-weight:700;color:#fff;line-height:1;}
+.ts-kpi-l{font-family:var(--fm);font-size:8px;color:var(--mid);text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
+.ts-kpi-d{font-family:var(--fm);font-size:9px;color:var(--mid);margin-top:4px;}
+
+.sync-bar{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.sync-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sync-dot.sd-green{background:var(--green);} .sync-dot.sd-yellow{background:var(--amber);animation:pulse 1.4s infinite;}
+.sync-dot.sd-red{background:var(--red);} .sync-dot.sd-gray{background:var(--mid);}
+.sync-text{font-family:var(--fm);font-size:9px;color:var(--mid);flex:1;}
+.sync-refresh{background:none;border:none;color:var(--electric);cursor:pointer;font-size:14px;transition:transform .3s;}
+.sync-refresh:hover{transform:rotate(180deg);}
+
+.ts-renewals{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:16px;}
+.ts-renewals-title{font-family:var(--fm);font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--steel);opacity:.6;margin-bottom:10px;}
+.ts-ren-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12.5px;}
+.ts-ren-row:last-child{border-bottom:none;}
+.ts-ren-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.ts-ren-dot.rd-red{background:var(--red);} .ts-ren-dot.rd-orange{background:var(--orange);} .ts-ren-dot.rd-green{background:var(--green);}
+.ts-ren-when{font-family:var(--fm);font-size:10px;width:70px;flex-shrink:0;}
+.ts-ren-when.rw-red{color:var(--red);} .ts-ren-when.rw-orange{color:var(--orange);} .ts-ren-when.rw-green{color:var(--mid);}
+.ts-ren-name{flex:1;color:#fff;font-weight:700;}
+.ts-ren-cat{font-family:var(--fm);font-size:9px;color:var(--mid);}
+.ts-ren-cost{font-family:var(--fm);font-size:11px;color:var(--steel);flex-shrink:0;}
+
+.ts-controls{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
+.ts-search{flex:1;min-width:160px;background:var(--s3);border:1px solid var(--border);color:#fff;padding:8px 12px;border-radius:6px;font-family:var(--fb);font-size:13px;}
+.ts-search:focus{outline:none;border-color:var(--electric);}
+.ts-filter{background:var(--s3);border:1px solid var(--border);color:var(--steel);padding:7px 10px;border-radius:6px;font-family:var(--fm);font-size:10px;cursor:pointer;}
+.ts-filter:focus{outline:none;border-color:var(--electric);}
+.ts-filter option{background:var(--s2);}
+
+.ts-table-wrap{border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.ts-table{width:100%;border-collapse:collapse;font-size:12px;}
+.ts-table thead th{background:var(--deep);color:var(--steel);padding:9px 10px;text-align:left;font-family:var(--fm);font-size:8px;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap;cursor:pointer;user-select:none;transition:color .15s;}
+.ts-table thead th:hover{color:#fff;}
+.ts-table thead th.sorted{color:var(--electric);}
+.ts-table thead th .sort-arrow{margin-left:3px;font-size:7px;}
+.ts-table tbody tr{border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.ts-table tbody tr:hover{background:var(--s3);}
+.ts-table tbody tr.cancelled-row{opacity:.5;}
+.ts-table tbody tr.cancelled-row .ts-svc{text-decoration:line-through;}
+.ts-table tbody td{padding:8px 10px;color:#C0CCDD;vertical-align:middle;}
+.ts-svc{font-weight:700;color:#fff;}
+.ts-cost{font-family:var(--fm);font-size:11px;color:var(--steel);}
+.ts-billing{font-family:var(--fm);font-size:10px;color:var(--mid);}
+.ts-status{font-family:var(--fm);font-size:8px;font-weight:700;padding:3px 7px;border-radius:3px;text-transform:uppercase;display:inline-block;}
+.ts-st-Active{background:rgba(16,185,129,.15);color:var(--green);}
+.ts-st-Trial{background:rgba(245,158,11,.15);color:var(--amber);}
+.ts-st-Paused{background:rgba(214,228,255,.1);color:var(--steel);}
+.ts-st-Cancelled{background:rgba(239,43,45,.1);color:var(--red);}
+.ts-actions{display:flex;gap:4px;}
+.ts-act-btn{background:none;border:none;cursor:pointer;font-size:12px;opacity:.4;transition:opacity .15s;padding:2px;}
+.ts-act-btn:hover{opacity:1;}
+.ts-expand-row{display:none;} .ts-expand-row.open{display:table-row;}
+.ts-expand-row td{padding:0 10px 12px 10px;background:var(--s3);}
+.ts-detail{display:flex;gap:16px;flex-wrap:wrap;padding-top:8px;}
+.ts-detail-item{font-size:11px;color:var(--mid);}
+.ts-detail-item strong{color:var(--steel);font-weight:600;}
+.ts-detail-item a{color:var(--electric);}
+
+.ts-setup{background:var(--s2);border:1px dashed var(--borderb);border-radius:10px;padding:32px;text-align:center;}
+.ts-setup .icon{font-size:32px;margin-bottom:10px;}
+.ts-setup p{font-size:13px;color:var(--mid);margin-bottom:14px;line-height:1.6;}
+
+/* Mobile: table → cards */
+.ts-cards-mobile{display:none;}
+.ts-mob-card{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:6px;}
+.ts-mob-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.ts-mob-svc{font-weight:700;color:#fff;font-size:13px;}
+.ts-mob-row{display:flex;justify-content:space-between;font-size:11px;color:var(--mid);padding:2px 0;}
+.ts-mob-row span:last-child{color:var(--steel);}
+
 /* ── OPS HUB ── */
 .ops-tabs{display:flex;gap:4px;flex-wrap:wrap;background:rgba(15,32,87,0.5);padding:4px;border-radius:8px;margin-bottom:20px;}
 .ops-tab{font-family:var(--fm);font-size:11px;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:6px;cursor:pointer;color:var(--steel);background:transparent;border:none;transition:all .2s;position:relative;white-space:nowrap;}
@@ -517,6 +594,9 @@ textarea.fi{resize:vertical;min-height:80px;}
   .obj-row{grid-template-columns:1fr;}
   .pl-hdr,.pl-row{grid-template-columns:1fr 80px 60px;}
   .pl-hdr span:nth-child(4),.pl-hdr span:nth-child(5),.pl-row .pl-date,.pl-row .icon-btn{display:none;}
+  .tech-summary{grid-template-columns:1fr;}
+  .ts-table-wrap{display:none;}
+  .ts-cards-mobile{display:block;}
   .kanban-board{flex-direction:column;}
   .kanban-col{min-height:auto;}
   .wk-grid{grid-template-columns:1fr;}
@@ -573,6 +653,10 @@ textarea.fi{resize:vertical;min-height:80px;}
   <div class="sb-group">
     <span class="sb-label">YC Track</span>
     <div class="nav" data-view="yc" onclick="nav(this)"><span class="nav-ic">🚀</span><span class="nav-lbl">YC Milestones</span></div>
+  </div>
+  <div class="sb-group">
+    <span class="sb-label">Finance</span>
+    <div class="nav" data-view="techstack" onclick="nav(this)"><span class="nav-ic">💳</span><span class="nav-lbl">Tech Stack</span><span class="badge b-mid" id="nb-ts">0</span></div>
   </div>
   <div class="sb-group">
     <span class="sb-label">System</span>
@@ -825,6 +909,28 @@ textarea.fi{resize:vertical;min-height:80px;}
   </div>
 </div>
 
+<!-- ── TECH STACK ── -->
+<div class="view" id="view-techstack">
+  <div class="ph">
+    <div class="ph-eye">Finance</div>
+    <div class="ph-title">Tech Stack</div>
+    <div class="ph-sub">All SaaS subscriptions, costs, and renewal dates — synced from Google Sheets.</div>
+  </div>
+  <div class="sync-bar" id="tsSyncBar">
+    <span class="sync-dot sd-gray" id="tsSyncDot"></span>
+    <span class="sync-text" id="tsSyncText">Not connected</span>
+    <button class="sync-refresh" onclick="loadTechStack()" title="Refresh">↻</button>
+    <button class="cta" onclick="openTechModal()">+ Add</button>
+  </div>
+  <div id="tsContent">
+    <div class="ts-setup">
+      <div class="icon">💳</div>
+      <p>Connect your Google Sheet to see your tech stack here.<br>Publish a "TechStack" tab as CSV, then paste the URL in Settings.</p>
+      <button class="setup-cta-btn" onclick="nav(document.querySelector('[data-view=settings]'))">Go to Settings →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── SETTINGS ── -->
 <div class="view" id="view-settings">
   <div class="ph"><div class="ph-eye">System</div><div class="ph-title">Settings</div></div>
@@ -844,6 +950,24 @@ textarea.fi{resize:vertical;min-height:80px;}
     </div>
     <div class="settings-hint">
       In Google Sheets: <code>File → Share → Publish to web → CSV → Publish</code> → copy that URL → paste above.
+    </div>
+  </div>
+
+  <div class="settings-section">
+    <div class="settings-title">Tech Stack Sheet</div>
+    <div class="setting-row">
+      <div class="setting-info">
+        <div class="setting-name">Tech Stack CSV URL</div>
+        <div class="setting-desc">Publish your "TechStack" tab as CSV. Columns: id, service, category, username, email, cost, billingCycle, billingDate, status, notes, url</div>
+      </div>
+    </div>
+    <div class="input-row">
+      <input class="settings-input" id="tsSheetUrl" type="text" placeholder="https://docs.google.com/spreadsheets/d/.../gviz/tq?tqx=out:csv&sheet=TechStack">
+      <button class="save-btn" onclick="saveTSUrl()">Save</button>
+      <button class="save-btn" style="background:var(--s3);color:var(--steel)" onclick="testTSUrl()">Test</button>
+    </div>
+    <div class="settings-hint">
+      In Google Sheets: <code>File → Share → Publish to web</code> → Select <code>TechStack</code> tab → CSV → Publish → paste URL above.
     </div>
   </div>
 
@@ -1060,6 +1184,42 @@ textarea.fi{resize:vertical;min-height:80px;}
   </div>
 </div>
 
+<!-- Tech Stack Add Modal -->
+<div class="overlay" id="techModal">
+  <div class="modal" style="width:540px">
+    <div class="modal-title">Add Subscription</div>
+    <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px">
+      <div class="fg"><label>Service Name *</label><input class="fi" id="tsService" placeholder="e.g. Vapi"></div>
+      <div class="fg"><label>Category</label><select class="fi" id="tsCategory"><option>Voice AI</option><option>CRM</option><option>Automation</option><option>Dev Tools</option><option>Analytics</option><option>Communication</option><option>Storage</option><option>Other</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fg"><label>Username</label><input class="fi" id="tsUsername" placeholder="derek@inresystems.com"></div>
+      <div class="fg"><label>Email</label><input class="fi" id="tsEmail" placeholder="derek@athio.ai"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div class="fg"><label>Cost ($)</label><input class="fi" id="tsCost" type="number" placeholder="99" min="0" step="0.01"></div>
+      <div class="fg"><label>Billing Cycle</label><select class="fi" id="tsCycle"><option>Monthly</option><option>Annual</option><option>One-time</option><option>Free</option></select></div>
+      <div class="fg"><label>Billing Date</label><select class="fi" id="tsBillDate"><option value="">N/A</option></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:10px">
+      <div class="fg"><label>Status</label><select class="fi" id="tsStatus"><option>Active</option><option>Trial</option><option>Paused</option><option>Cancelled</option></select></div>
+      <div class="fg"><label>URL</label><input class="fi" id="tsUrl" placeholder="https://vapi.ai"></div>
+    </div>
+    <div class="fg"><label>Notes</label><textarea class="fi" id="tsNotes" placeholder="Pilot pricing, renewal terms..." style="min-height:50px"></textarea></div>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('techModal')">Cancel</button><button class="btn-save" onclick="generateSheetRow()">Generate Row →</button></div>
+  </div>
+</div>
+
+<!-- Tech Stack Copy Row Modal -->
+<div class="overlay" id="techCopyModal">
+  <div class="modal" style="width:500px">
+    <div class="modal-title">Add to Your Sheet</div>
+    <p style="font-size:12px;color:var(--mid);margin-bottom:10px">Copy this row and paste it into the next empty row in your TechStack sheet:</p>
+    <textarea class="fi" id="tsCopyRow" readonly style="min-height:60px;font-family:var(--fm);font-size:10px;word-break:break-all" onclick="this.select()"></textarea>
+    <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('techCopyModal')">Close</button><button class="btn-save" onclick="copyTSRow()">Copy to Clipboard</button></div>
+  </div>
+</div>
+
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
@@ -1177,6 +1337,8 @@ function renderAll() {
   renderYC(); renderWeekChart(); renderPitch(); renderObjections();
   updateBadges(); loadSettings();
   if(typeof renderAllOps==='function')renderAllOps();
+  if(typeof loadTSSettings==='function')loadTSSettings();
+  if(typeof updateTSBadge==='function')updateTSBadge(_tsData||[]);
 }
 
 // ── KPIs ───────────────────────────────────────────────────────────────
@@ -1742,7 +1904,8 @@ async function testSheet() {
 }
 function resetAll() {
   ['irs_firms','irs_followups','irs_transcripts','irs_tasks','irs_templates','irs_objections','irs_sops','irs_week','irs_settings','irs_sheetCache','irs_sheetSync',
-   'irs_ops_tasks','irs_ops_tasks_archive','irs_ops_weekly_commitments','irs_ops_weekly_archive','irs_ops_decisions','irs_ops_blockers','irs_ops_inbox','irs_ops_meeting_notes','irs_ops_active_tab','irs_ops_custom_tags'].forEach(k=>localStorage.removeItem(k));
+   'irs_ops_tasks','irs_ops_tasks_archive','irs_ops_weekly_commitments','irs_ops_weekly_archive','irs_ops_decisions','irs_ops_blockers','irs_ops_inbox','irs_ops_meeting_notes','irs_ops_active_tab','irs_ops_custom_tags',
+   'irs_sheets_techstack_url','irs_techstack_cache','irs_techstack_syncTime'].forEach(k=>localStorage.removeItem(k));
   location.reload();
 }
 
@@ -1822,6 +1985,301 @@ function toast(msg, cls='t-green') {
   el.textContent = msg;
   el.className = `toast show ${cls}`;
   setTimeout(()=>{ el.className='toast'; }, 3000);
+}
+
+// ── TECH STACK ────────────────────────────────────────────────────────
+let _tsData = [];
+let _tsSort = { col:'cost', dir:'desc' };
+let _tsExpandId = null;
+
+function getOrdinal(n){const s=['th','st','nd','rd'];const v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+
+function initTSBillingSelect(){
+  const sel=$('tsBillDate');if(!sel||sel.options.length>1)return;
+  for(let i=1;i<=31;i++){const o=document.createElement('option');o.value=i;o.textContent=getOrdinal(i);sel.appendChild(o);}
+}
+
+async function loadTechStack(){
+  const url=localStorage.getItem('irs_sheets_techstack_url');
+  if(!url){renderTSSetup();return;}
+  setTSSync('syncing');
+  try{
+    const res=await fetch(url);
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const csv=await res.text();
+    const data=parseTSCSV(csv);
+    _tsData=data;
+    cacheTSData(data);
+    renderTSFull(data);
+    setTSSync('connected');
+  }catch(e){
+    const cached=loadTSCache();
+    if(cached){_tsData=cached;renderTSFull(cached);setTSSync('cached');}
+    else{renderTSError();setTSSync('error');}
+  }
+}
+
+function parseTSCSV(csv){
+  const lines=csv.split('\n').filter(l=>l.trim());
+  if(lines.length<2)return[];
+  const headers=parseCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim());
+  return lines.slice(1).map(line=>{
+    const vals=parseCSVLine(line);
+    const obj={};
+    headers.forEach((h,i)=>{obj[h]=(vals[i]||'').replace(/"/g,'').trim();});
+    obj.cost=parseFloat(obj.cost)||0;
+    obj.billingDate=parseInt(obj.billingDate)||null;
+    return obj;
+  }).filter(r=>r.service);
+}
+
+function parseCSVLine(line){
+  const result=[];let cur='',inQ=false;
+  for(const c of line){if(c==='"')inQ=!inQ;else if(c===','&&!inQ){result.push(cur);cur='';}else cur+=c;}
+  result.push(cur);return result;
+}
+
+function cacheTSData(data){localStorage.setItem('irs_techstack_cache',JSON.stringify({data,cachedAt:new Date().toISOString()}));}
+function loadTSCache(){try{const c=JSON.parse(localStorage.getItem('irs_techstack_cache'));return c?.data||null;}catch(e){return null;}}
+
+function setTSSync(state){
+  const dot=$('tsSyncDot'),txt=$('tsSyncText');if(!dot)return;
+  const ts=localStorage.getItem('irs_techstack_syncTime');
+  const ago=ts?formatTSAgo(ts):'';
+  if(state==='connected'){dot.className='sync-dot sd-green';txt.textContent='Synced from Sheets'+(ago?' · '+ago:'');}
+  else if(state==='syncing'){dot.className='sync-dot sd-yellow';txt.textContent='Syncing...';}
+  else if(state==='cached'){dot.className='sync-dot sd-red';txt.textContent='Offline · Using cached data'+(ago?' from '+ago:'');}
+  else if(state==='error'){dot.className='sync-dot sd-red';txt.textContent='Failed to load — check Sheet URL in Settings';}
+  else{dot.className='sync-dot sd-gray';txt.textContent='Not connected';}
+  if(state==='connected')localStorage.setItem('irs_techstack_syncTime',new Date().toISOString());
+}
+
+function formatTSAgo(iso){
+  const ms=Date.now()-new Date(iso).getTime();
+  if(ms<60000)return'just now';if(ms<3600000)return Math.floor(ms/60000)+'m ago';
+  if(ms<86400000)return Math.floor(ms/3600000)+'h ago';return Math.floor(ms/86400000)+'d ago';
+}
+
+function renderTSSetup(){
+  $('tsContent').innerHTML=`<div class="ts-setup"><div class="icon">💳</div><p>Connect your Google Sheet to see your tech stack here.<br>Publish a "TechStack" tab as CSV, then paste the URL in Settings.</p><button class="setup-cta-btn" onclick="nav(document.querySelector('[data-view=settings]'))">Go to Settings →</button></div>`;
+  setTSSync('none');
+}
+
+function renderTSError(){
+  $('tsContent').innerHTML=`<div class="ts-setup"><div class="icon">⚠️</div><p>Could not load from Google Sheets.<br>Check your URL in Settings or try refreshing.</p><button class="setup-cta-btn" onclick="nav(document.querySelector('[data-view=settings]'))">Check Settings →</button></div>`;
+}
+
+function renderTSFull(data){
+  if(!data||!data.length){$('tsContent').innerHTML='<div class="empty-state"><div class="empty-icon">💳</div><div class="empty-txt">No subscriptions found in your Sheet</div></div>';return;}
+  const active=data.filter(s=>s.status==='Active');
+  const totalBurn=active.reduce((s,r)=>{
+    if(r.billingCycle==='Monthly')return s+r.cost;
+    if(r.billingCycle==='Annual')return s+r.cost/12;
+    return s;
+  },0);
+  const activeCount=active.length;
+  const renewals=getUpcomingRenewals(data);
+  const nextR=renewals[0];
+  const nextText=nextR?`${nextR.service} in ${nextR.daysUntil}d`:'—';
+
+  let html=`<div class="tech-summary">
+    <div class="ts-kpi ts-burn"><div class="ts-kpi-v">$${Math.round(totalBurn).toLocaleString()}/mo</div><div class="ts-kpi-l">Total Burn</div><div class="ts-kpi-d">active monthly cost</div></div>
+    <div class="ts-kpi ts-active"><div class="ts-kpi-v">${activeCount}</div><div class="ts-kpi-l">Active Services</div><div class="ts-kpi-d">${data.length} total</div></div>
+    <div class="ts-kpi ts-next"><div class="ts-kpi-v">${nextText}</div><div class="ts-kpi-l">Next Renewal</div><div class="ts-kpi-d">${nextR?'$'+nextR.cost:''}</div></div>
+  </div>`;
+
+  // Upcoming renewals
+  if(renewals.length){
+    html+=`<div class="ts-renewals"><div class="ts-renewals-title">Upcoming Renewals (Next 7 Days)</div>`;
+    html+=renewals.map(r=>{
+      const dotCls=r.daysUntil<=1?'rd-red':r.daysUntil<=3?'rd-orange':'rd-green';
+      const whenCls=r.daysUntil<=1?'rw-red':r.daysUntil<=3?'rw-orange':'rw-green';
+      const whenTxt=r.daysUntil===0?'Today':r.daysUntil===1?'Tomorrow':'In '+r.daysUntil+'d';
+      return `<div class="ts-ren-row"><span class="ts-ren-dot ${dotCls}"></span><span class="ts-ren-when ${whenCls}">${whenTxt}</span><span class="ts-ren-name">${r.service}</span><span class="ts-ren-cat">${r.category||''}</span><span class="ts-ren-cost">$${r.cost}</span></div>`;
+    }).join('')+'</div>';
+  }
+
+  // Filters
+  const cats=[...new Set(data.map(r=>r.category).filter(Boolean))].sort();
+  html+=`<div class="ts-controls">
+    <input class="ts-search" id="tsSearchInput" placeholder="Search services..." oninput="filterTechStack()">
+    <select class="ts-filter" id="tsCatFilter" onchange="filterTechStack()"><option value="">All Categories</option>${cats.map(c=>`<option>${c}</option>`).join('')}</select>
+    <select class="ts-filter" id="tsStatusFilter" onchange="filterTechStack()"><option value="">All Status</option><option>Active</option><option>Trial</option><option>Paused</option><option>Cancelled</option></select>
+  </div>`;
+
+  // Table
+  html+=`<div class="ts-table-wrap"><table class="ts-table"><thead><tr>
+    <th onclick="sortTS('service')" class="${_tsSort.col==='service'?'sorted':''}">Service <span class="sort-arrow">${_tsSort.col==='service'?(_tsSort.dir==='asc'?'▲':'▼'):''}</span></th>
+    <th onclick="sortTS('category')" class="${_tsSort.col==='category'?'sorted':''}">Category <span class="sort-arrow">${_tsSort.col==='category'?(_tsSort.dir==='asc'?'▲':'▼'):''}</span></th>
+    <th>Username</th>
+    <th onclick="sortTS('cost')" class="${_tsSort.col==='cost'?'sorted':''}">Cost <span class="sort-arrow">${_tsSort.col==='cost'?(_tsSort.dir==='asc'?'▲':'▼'):''}</span></th>
+    <th onclick="sortTS('billingDate')" class="${_tsSort.col==='billingDate'?'sorted':''}">Billing <span class="sort-arrow">${_tsSort.col==='billingDate'?(_tsSort.dir==='asc'?'▲':'▼'):''}</span></th>
+    <th onclick="sortTS('status')" class="${_tsSort.col==='status'?'sorted':''}">Status <span class="sort-arrow">${_tsSort.col==='status'?(_tsSort.dir==='asc'?'▲':'▼'):''}</span></th>
+    <th></th>
+  </tr></thead><tbody id="tsTbody"></tbody></table></div>`;
+
+  // Mobile cards
+  html+=`<div class="ts-cards-mobile" id="tsMobileCards"></div>`;
+
+  $('tsContent').innerHTML=html;
+  renderTSRows(data);
+  updateTSBadge(data);
+}
+
+function renderTSRows(data){
+  let filtered=filterTSData(data);
+  filtered=sortTSData(filtered);
+  const tbody=$('tsTbody');
+  const mobile=$('tsMobileCards');
+  if(!tbody)return;
+  if(!filtered.length){
+    tbody.innerHTML=`<tr><td colspan="7" style="text-align:center;padding:24px;color:var(--mid)">No services match your filters</td></tr>`;
+    if(mobile)mobile.innerHTML='';
+    return;
+  }
+  let rows='';
+  filtered.forEach(r=>{
+    const isCancelled=r.status==='Cancelled';
+    const costStr=r.cost?'$'+r.cost+(r.billingCycle==='Annual'?'/yr':'/mo'):'Free';
+    const billStr=r.billingDate?getOrdinal(r.billingDate):'—';
+    const id=r.id||r.service.replace(/\W/g,'');
+    const isOpen=_tsExpandId===id;
+    rows+=`<tr class="${isCancelled?'cancelled-row':''}" onclick="toggleTSExpand('${id}')">
+      <td class="ts-svc">${r.service}</td>
+      <td style="font-size:11px;color:var(--mid)">${r.category||''}</td>
+      <td style="font-size:11px;color:var(--mid)">${r.username||''}</td>
+      <td class="ts-cost">${costStr}</td>
+      <td class="ts-billing">${billStr}</td>
+      <td><span class="ts-status ts-st-${r.status}">${r.status}</span></td>
+      <td class="ts-actions">${r.url?`<a href="${r.url}" target="_blank" class="ts-act-btn" onclick="event.stopPropagation()" title="Open">🔗</a>`:''}</td>
+    </tr>`;
+    rows+=`<tr class="ts-expand-row ${isOpen?'open':''}" id="tsx-${id}"><td colspan="7"><div class="ts-detail">
+      ${r.email?`<div class="ts-detail-item"><strong>Email:</strong> ${r.email}</div>`:''}
+      ${r.notes?`<div class="ts-detail-item"><strong>Notes:</strong> ${r.notes}</div>`:''}
+      ${r.url?`<div class="ts-detail-item"><strong>URL:</strong> <a href="${r.url}" target="_blank">${r.url}</a></div>`:''}
+      ${r.billingCycle?`<div class="ts-detail-item"><strong>Cycle:</strong> ${r.billingCycle}</div>`:''}
+    </div></td></tr>`;
+  });
+  tbody.innerHTML=rows;
+
+  // Mobile cards
+  if(mobile){
+    mobile.innerHTML=filtered.map(r=>{
+      const costStr=r.cost?'$'+r.cost+(r.billingCycle==='Annual'?'/yr':'/mo'):'Free';
+      return `<div class="ts-mob-card">
+        <div class="ts-mob-top"><span class="ts-mob-svc">${r.service}</span><span class="ts-status ts-st-${r.status}">${r.status}</span></div>
+        <div class="ts-mob-row"><span>Category</span><span>${r.category||'—'}</span></div>
+        <div class="ts-mob-row"><span>Cost</span><span>${costStr}</span></div>
+        <div class="ts-mob-row"><span>Billing</span><span>${r.billingDate?getOrdinal(r.billingDate):'—'}</span></div>
+        ${r.notes?`<div class="ts-mob-row"><span>Notes</span><span>${r.notes}</span></div>`:''}
+        ${r.url?`<div class="ts-mob-row"><span>URL</span><span><a href="${r.url}" target="_blank" style="color:var(--electric)">${r.service}</a></span></div>`:''}
+      </div>`;
+    }).join('');
+  }
+}
+
+function toggleTSExpand(id){_tsExpandId=_tsExpandId===id?null:id;const row=$('tsx-'+id);if(row)row.classList.toggle('open');}
+
+function filterTSData(data){
+  const q=($('tsSearchInput')?.value||'').toLowerCase();
+  const cat=$('tsCatFilter')?.value||'';
+  const st=$('tsStatusFilter')?.value||'';
+  return data.filter(r=>{
+    if(q&&!(r.service+' '+r.username+' '+r.email+' '+r.notes).toLowerCase().includes(q))return false;
+    if(cat&&r.category!==cat)return false;
+    if(st&&r.status!==st)return false;
+    return true;
+  });
+}
+
+function filterTechStack(){renderTSRows(_tsData);}
+
+function sortTSData(data){
+  const{col,dir}=_tsSort;
+  return[...data].sort((a,b)=>{
+    let va=a[col],vb=b[col];
+    if(col==='cost'||col==='billingDate'){va=va||0;vb=vb||0;return dir==='asc'?va-vb:vb-va;}
+    va=(va||'').toString().toLowerCase();vb=(vb||'').toString().toLowerCase();
+    return dir==='asc'?va.localeCompare(vb):vb.localeCompare(va);
+  });
+}
+
+function sortTS(col){
+  if(_tsSort.col===col)_tsSort.dir=_tsSort.dir==='asc'?'desc':'asc';
+  else{_tsSort.col=col;_tsSort.dir=col==='cost'?'desc':'asc';}
+  renderTSFull(_tsData);
+}
+
+function getUpcomingRenewals(data){
+  const today=new Date().getDate();
+  const now=new Date();
+  const daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  return data.filter(s=>s.status==='Active'&&s.billingDate).map(s=>{
+    let d;if(s.billingDate>=today)d=s.billingDate-today;
+    else d=(daysInMonth-today)+s.billingDate;
+    return{...s,daysUntil:d};
+  }).filter(s=>s.daysUntil<=7).sort((a,b)=>a.daysUntil-b.daysUntil);
+}
+
+function updateTSBadge(data){
+  const n=data?data.filter(s=>s.status==='Active').length:0;
+  const el=$('nb-ts');if(el)el.textContent=n;
+}
+
+// Settings
+function saveTSUrl(){
+  const url=$('tsSheetUrl')?.value.trim();
+  if(url)localStorage.setItem('irs_sheets_techstack_url',url);
+  else localStorage.removeItem('irs_sheets_techstack_url');
+  toast('✓ Tech Stack URL saved','t-green');
+}
+
+async function testTSUrl(){
+  const url=$('tsSheetUrl')?.value.trim()||localStorage.getItem('irs_sheets_techstack_url');
+  if(!url){toast('Save a URL first','t-amber');return;}
+  try{const res=await fetch(url);if(!res.ok)throw new Error();toast('✓ Tech Stack sheet connection works!','t-green');}
+  catch(e){toast('✗ Could not reach sheet — check URL','t-red');}
+}
+
+function loadTSSettings(){
+  const url=localStorage.getItem('irs_sheets_techstack_url');
+  if($('tsSheetUrl'))$('tsSheetUrl').value=url||'';
+}
+
+// Add modal
+function openTechModal(){
+  initTSBillingSelect();
+  ['tsService','tsUsername','tsEmail','tsCost','tsUrl','tsNotes'].forEach(id=>{if($(id))$(id).value='';});
+  $('tsCategory').value='Voice AI';$('tsCycle').value='Monthly';$('tsBillDate').value='';$('tsStatus').value='Active';
+  openModal('techModal');
+}
+
+function generateSheetRow(){
+  const svc=$('tsService').value.trim();
+  if(!svc){toast('Service name required','t-red');return;}
+  const id='ts_'+Date.now().toString(36);
+  const row=[id,svc,$('tsCategory').value,$('tsUsername').value,$('tsEmail').value,
+    $('tsCost').value||'0',$('tsCycle').value,$('tsBillDate').value,$('tsStatus').value,
+    $('tsNotes').value,$('tsUrl').value].join('\t');
+  $('tsCopyRow').value=row;
+  closeModal('techModal');openModal('techCopyModal');
+}
+
+function copyTSRow(){
+  const el=$('tsCopyRow');if(!el)return;
+  navigator.clipboard.writeText(el.value).then(()=>{toast('✓ Row copied — paste into your Sheet','t-green');closeModal('techCopyModal');});
+}
+
+function initTechStack(){
+  loadTSSettings();
+  const url=localStorage.getItem('irs_sheets_techstack_url');
+  if(url){
+    const cached=loadTSCache();
+    if(cached){_tsData=cached;renderTSFull(cached);setTSSync('connected');updateTSBadge(cached);}
+    loadTechStack();
+  } else {
+    renderTSSetup();updateTSBadge([]);
+  }
 }
 
 // ── OPS HUB ───────────────────────────────────────────────────────────
@@ -2623,6 +3081,7 @@ const _origRenderAll = renderAll;
 initDate();
 renderAll();
 initLeads();
+initTechStack();
 initOps();
 </script>
 </body>
